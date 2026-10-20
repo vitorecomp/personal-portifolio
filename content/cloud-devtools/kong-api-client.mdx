@@ -1,0 +1,144 @@
+import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+
+# Kong API Client
+
+<ProjectHeader
+  name="Kong API Client"
+  repo="kong-api-client"
+  branch="master"
+  description="Complete Node.js library enabling programmatic integration with the Kong API Gateway management plane."
+  language="JavaScript"
+  tags={["javascript","nodejs","api-gateway"]}
+  stars={1}
+  isFork={false}
+  githubUrl="https://github.com/vitorecomp/kong-api-client"
+/>
+
+# kong-api-client
+
+[![Eslint build and validation](https://github.com/vitorecomp/kong-api-client/actions/workflows/build-code.yml/badge.svg)](https://github.com/vitorecomp/kong-api-client/actions/workflows/build-code.yml)
+[![Kong Integration Test](https://github.com/vitorecomp/kong-api-client/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/vitorecomp/kong-api-client/actions/workflows/integration-tests.yml)
+[![codecov](https://codecov.io/gh/vitorecomp/kong-api-client/branch/master/graph/badge.svg)](https://codecov.io/gh/vitorecomp/kong-api-client)
+
+## Description
+
+This is a sdk, to the Kong Gateway Admin API [https://konghq.com/solutions/gateway/](https://konghq.com/solutions/gateway/). The implemented endpoints are:
+
+- Services
+- Customers
+- Plugins
+- Routes
+
+The version of the kong api, is 1.1.x described on [https://docs.konghq.com/1.1.x/getting-started/introduction](https://docs.konghq.com/1.1.x/getting-started/introduction)
+
+Is possible to find examples on the examples folder and a complete reference guide on the documentation folder.
+
+## How connect to the kong instance
+
+```javascript
+
+let KongApi = require('../../index.js')
+let config = {
+    adminUrl: 'http://' + process.env.KONG_IP + ':8001'
+}
+let kong = new KongApi(config)
+kong.init()
+```
+
+### How save new service
+
+```javascript
+
+let KongApi = require('../../index.js')
+let config = {
+    adminUrl: 'http://' + process.env.KONG_IP + ':8001'
+}
+let kong = new KongApi(config)
+kong.init()
+
+await kong.addService({
+    protocol: 'http',
+    host: 'www.test.com',
+    port: 8080,
+    name: 'test'
+});
+
+```
+
+### How update a service host
+
+```javascript
+
+let KongApi = require('../../index.js')
+let config = {
+    adminUrl: 'http://' + process.env.KONG_IP + ':8001'
+}
+let kong = new KongApi(config)
+kong.init()
+
+await kong.updateService(testHostId, {
+    host: "www.new-test.com"
+});
+
+```
+
+### Save a new customer
+
+```javascript
+
+let KongApi = require('../../index.js')
+let config = {
+    adminUrl: 'http://' + process.env.KONG_IP + ':8001'
+}
+let kong = new KongApi(config)
+kong.init()
+
+await kong.addConsumer({
+    username: 'my-username',
+    custom_id: 'my-custom-id',
+});
+
+```
+
+## Complete documentation
+
+### [Builder Api](https://github.com/vitorecomp/kong-api-client/blob/master/documentation/init.md)
+
+> This is the block of documentations that will define the base objects that the lib will use and/or receive from kong.
+
+### [Services Api](https://github.com/vitorecomp/kong-api-client/blob/master/documentation/services.md)
+
+> In this block of documentations will be defined interact with the kong services using the lib.
+
+### [Routes Api](https://github.com/vitorecomp/kong-api-client/blob/master/documentation/routes.md)
+
+> In this block of documentations will be defined interact with the kong routes using the lib.
+
+### [Consumers Api](https://github.com/vitorecomp/kong-api-client/blob/master/documentation/consumers.md)
+
+> In this block of documentations will be defined interact with the kong consumers using the lib.
+
+### [Plugins Api](https://github.com/vitorecomp/kong-api-client/blob/master/documentation/plugins.md)
+
+> In this block of documentations will be defined interact with the kong plugins using the lib.
+
+## Need fix
+
+- [ ] Better error msg in case of offline kong server
+- [ ] User jest expect throw on the tests
+
+## Road Map
+
+- [ ] add unit tests
+- [x] builder
+- [x] add a dockerfile to up kong
+- [ ] add the plugins on the consumers (auth)
+- [ ] create the documentation
+- [x] main readme
+- [ ] constructor
+- [ ] domains
+- [ ] routes
+- [ ] consumers
+- [ ] plugins
+- [x] add the custom exception
+- [ ] add routes capable to add items (plugins, consumers)

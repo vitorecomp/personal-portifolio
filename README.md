@@ -1,23 +1,60 @@
-# Nextra Docs Template 
+# `~/vitorx86/portfolio` — Personal Portfolio & Project Docs
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+Project documentation hub and open-source repository index for **Vitor** ([vitorx86.dev](https://vitorx86.dev) / [`@vitorecomp`](https://github.com/vitorecomp)), built with **Node.js 24 LTS**, **Next.js 16** (App Router), **Nextra 4**, **React 19**, and **TypeScript 5.9**.
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+Designed in the **"Hacker's Garage"** terminal aesthetic of [`vitorx86.dev`](https://vitorx86.dev) (`JetBrains Mono`, `~$` command prompts, `#111827` terminal cards, `#0d9488` prompt teal, and `#4ade80` phosphor green actions) and automatically populated with `README.md` files from `github.com/vitorecomp`.
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+## Syncing Projects from GitHub
 
-## Quick Start
+Run the sync script at any time to pull the latest `README.md` files and repository metadata from `github.com/vitorecomp`:
 
-Click the button to clone this repository and deploy it on Vercel:
+```bash
+node scripts/sync-github-projects.mjs
+# or via pnpm:
+pnpm sync
+```
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+Set `GITHUB_TOKEN` if you need higher GitHub API rate limits:
+
+```bash
+GITHUB_TOKEN=ghp_xxx pnpm sync
+```
 
 ## Local Development
 
-First, run `pnpm i` to install the dependencies.
+```bash
+pnpm i
+pnpm dev
+```
 
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
+Visit `http://localhost:3000`.
+
+## Running with Docker & Docker Compose
+
+```bash
+# Production build & server (http://localhost:3000)
+docker compose up --build -d
+
+# Development server with hot-reload (http://localhost:3000)
+docker compose --profile dev up --build dev
+
+# Stop containers
+docker compose --profile dev down
+```
+
+## Running with Podman & Podman Compose
+
+```bash
+# Production build & server (http://localhost:3000)
+podman-compose -f podman-compose.yml up --build -d
+
+# Development server with hot-reload and rootless keep-id (http://localhost:3000)
+podman-compose -f podman-compose.yml --profile dev up --build dev
+
+# Stop containers
+podman-compose -f podman-compose.yml --profile dev down
+```
 
 ## License
 
-This project is licensed under the MIT License.
+MIT

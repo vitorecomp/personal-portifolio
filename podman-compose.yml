@@ -1,0 +1,42 @@
+x-podman:
+  in_pod: false
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    image: personal-portifolio:prod
+    container_name: personal-portifolio-app
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+    restart: unless-stopped
+
+  dev:
+    profiles:
+      - dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    image: personal-portifolio:dev
+    container_name: personal-portifolio-dev
+    userns_mode: keep-id
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: development
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - .:/app:Z
+      - personal-portifolio-node-modules:/app/node_modules
+      - personal-portifolio-next-cache:/app/.next
+    command: pnpm dev
+
+volumes:
+  personal-portifolio-node-modules:
+  personal-portifolio-next-cache:

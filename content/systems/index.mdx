@@ -1,0 +1,104 @@
+import { TerminalEyebrow, ProjectGrid } from '../../components/portfolio'
+
+<TerminalEyebrow command="ls ~/projects/systems" />
+
+# Systems, Search & CLI
+
+High-performance engines, vector indexes, operating system primitives, and command-line tools written in Rust, Go, C++, and x86 Assembly.
+
+<ProjectGrid
+  accent="teal"
+  projects={[
+  {
+    "title": "TurboVec",
+    "repo": "turbovec",
+    "path": "~/projects/turbovec",
+    "description": "A vector index built on TurboQuant, written in Rust with Python bindings and SIMD acceleration.",
+    "tags": [
+      "rust",
+      "python",
+      "vector-index",
+      "simd"
+    ],
+    "docsHref": "/systems/turbovec",
+    "githubHref": "https://github.com/vitorecomp/turbovec"
+  },
+  {
+    "title": "Ruscene",
+    "repo": "ruscene",
+    "path": "~/projects/ruscene",
+    "description": "A Lucene-style full-text search engine architecture implemented from scratch in Rust.",
+    "tags": [
+      "rust",
+      "search-engine",
+      "lucene"
+    ],
+    "docsHref": "/systems/ruscene",
+    "githubHref": "https://github.com/vitorecomp/ruscene"
+  },
+  {
+    "title": "go-ls",
+    "repo": "go-ls",
+    "path": "~/projects/go-ls",
+    "description": "A complete ls command-line replacement written in Go — everything the original does, plus icons and extra features.",
+    "tags": [
+      "go",
+      "cli",
+      "filesystem"
+    ],
+    "docsHref": "/systems/go-ls",
+    "githubHref": "https://github.com/vitorecomp/go-ls"
+  },
+  {
+    "title": "Nos-System",
+    "repo": "Nos-System",
+    "path": "~/projects/nos-system",
+    "description": "A framework for controlling node-oriented distributed services, built around a super-node architecture.",
+    "tags": [
+      "c++",
+      "javascript",
+      "distributed"
+    ],
+    "docsHref": "/systems/nos-system",
+    "githubHref": "https://github.com/vitorecomp/Nos-System"
+  },
+  {
+    "title": "Personal Life Manager",
+    "repo": "personal-life-manager",
+    "path": "~/projects/personal-life-manager",
+    "description": "Go service and CLI utilities for managing personal workflows, tasks, and automation.",
+    "tags": [
+      "go",
+      "backend",
+      "productivity"
+    ],
+    "docsHref": "/systems/personal-life-manager",
+    "githubHref": "https://github.com/vitorecomp/personal-life-manager"
+  },
+  {
+    "title": "ASM Steganography",
+    "repo": "asm-steganography",
+    "path": "~/projects/asm-steganography",
+    "description": "A steganography hidden-message extractor implemented directly in x86 Assembly.",
+    "tags": [
+      "assembly",
+      "x86",
+      "steganography"
+    ],
+    "docsHref": "/systems/asm-steganography",
+    "githubHref": "https://github.com/vitorecomp/asm-steganography"
+  },
+  {
+    "title": "Rust Learning Projects",
+    "repo": "learning-projects",
+    "path": "~/projects/learning-projects",
+    "description": "Hands-on systems programming experiments and data structures in Rust.",
+    "tags": [
+      "rust",
+      "systems"
+    ],
+    "docsHref": "/systems/learning-projects",
+    "githubHref": "https://github.com/vitorecomp/learning-projects"
+  }
+]}
+/>

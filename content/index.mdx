@@ -1,0 +1,154 @@
+import {
+  TerminalHero,
+  TerminalEyebrow,
+  ProjectGrid,
+  TerminalCallout,
+} from '../components/portfolio'
+
+<TerminalHero />
+
+<TerminalEyebrow command="ls ~/projects/featured" />
+
+## Featured Builds
+
+Selected open-source repositories from [github.com/vitorecomp](https://github.com/vitorecomp) — click `$ ./read_docs.sh` on any terminal window to read its synced documentation and `README.md`, or `./github ↗` to jump straight to the source tree.
+
+<ProjectGrid
+  accent="teal"
+  projects={[
+    {
+      title: 'TurboVec',
+      repo: 'turbovec',
+      path: '~/projects/turbovec',
+      description:
+        'A vector index built on TurboQuant, written in Rust with Python bindings and SIMD acceleration.',
+      tags: ['rust', 'python', 'vector-index', 'simd'],
+      docsHref: '/systems/turbovec',
+      githubHref: 'https://github.com/vitorecomp/turbovec',
+    },
+    {
+      title: 'Ruscene',
+      repo: 'ruscene',
+      path: '~/projects/ruscene',
+      description:
+        'A Lucene-style full-text search engine implemented from scratch in Rust.',
+      tags: ['rust', 'search-engine', 'lucene'],
+      docsHref: '/systems/ruscene',
+      githubHref: 'https://github.com/vitorecomp/ruscene',
+    },
+    {
+      title: 'go-ls',
+      repo: 'go-ls',
+      path: '~/projects/go-ls',
+      description:
+        'A complete ls rewritten in Go — everything the original does, plus icons, tree views, and extra features.',
+      tags: ['go', 'cli', 'filesystem'],
+      docsHref: '/systems/go-ls',
+      githubHref: 'https://github.com/vitorecomp/go-ls',
+    },
+    {
+      title: 'Nos-System',
+      repo: 'Nos-System',
+      path: '~/projects/nos-system',
+      description:
+        'A framework for controlling node-oriented services, built around a super-node concept.',
+      tags: ['c++', 'javascript', 'distributed'],
+      docsHref: '/systems/nos-system',
+      githubHref: 'https://github.com/vitorecomp/Nos-System',
+    },
+    {
+      title: 'SEI MCP Server',
+      repo: 'sei-mcp',
+      path: '~/projects/sei-mcp',
+      description:
+        'Full-featured Model Context Protocol (MCP) server for automating workflows in the SEI system.',
+      tags: ['python', 'mcp', 'agents', 'automation'],
+      docsHref: '/ai/sei-mcp',
+      githubHref: 'https://github.com/vitorecomp/sei-mcp',
+    },
+    {
+      title: 'AI Advanced OCR',
+      repo: 'ai-advanced-ocr',
+      path: '~/projects/ai-advanced-ocr',
+      description:
+        'Experiments pushing document OCR beyond the basics with modern vision and AI models.',
+      tags: ['python', 'ai', 'ocr'],
+      docsHref: '/ai/ai-advanced-ocr',
+      githubHref: 'https://github.com/vitorecomp/ai-advanced-ocr',
+    },
+    {
+      title: 'Open Judy',
+      repo: 'open-judy',
+      path: '~/projects/open-judy',
+      description:
+        'Open-source judiciary system template designed for AI-assisted legal workflows.',
+      tags: ['typescript', 'ai', 'legal-tech'],
+      docsHref: '/ai/open-judy',
+      githubHref: 'https://github.com/vitorecomp/open-judy',
+    },
+    {
+      title: 'ESP32 Watch OS',
+      repo: 'esp32-watch-so',
+      path: '~/projects/esp32-watch-so',
+      description:
+        'A tiny operating system for ESP32-based watches, written close to the metal in C++.',
+      tags: ['c++', 'esp32', 'embedded'],
+      docsHref: '/hardware/esp32-watch-so',
+      githubHref: 'https://github.com/vitorecomp/esp32-watch-so',
+    },
+    {
+      title: 'Alissa — AI Racing Companion',
+      repo: 'alissa-ai-racing-companion',
+      path: '~/projects/alissa',
+      description:
+        'AI racing companion — OBD telemetry, tuning help, diagnostics, and race insights for old shitboxes.',
+      tags: ['ai', 'telemetry', 'racing'],
+      docsHref: '/ai/alissa-ai-racing-companion',
+      githubHref: 'https://github.com/vitorecomp/alissa-ai-racing-companion',
+    },
+  ]}
+/>
+
+<TerminalEyebrow command="ls -d ~/projects/*" />
+
+## Browse by Directory
+
+<ProjectGrid
+  accent="indigo"
+  projects={[
+    {
+      title: 'Systems & CLI',
+      repo: 'dir-systems',
+      path: '~/systems-and-cli',
+      description:
+        'Vector indexes, full-text search engines, CLI replacements, and low-level Rust, Go, C++, and x86 Assembly code.',
+      tags: ['rust', 'go', 'c++', 'x86-asm'],
+      docsHref: '/systems',
+      githubHref: 'https://github.com/vitorecomp?tab=repositories',
+    },
+    {
+      title: 'AI, OCR & Agents',
+      repo: 'dir-ai',
+      path: '~/ai-and-agents',
+      description:
+        'MCP servers, Gemini enterprise utilities, OCR pipelines, genetic algorithms, and AI racing telemetry.',
+      tags: ['mcp', 'gemini', 'ocr', 'python'],
+      docsHref: '/ai',
+      githubHref: 'https://github.com/vitorecomp?tab=repositories',
+    },
+    {
+      title: 'Hardware & Backyard Mech',
+      repo: 'dir-hardware',
+      path: '~/backyard-mech',
+      description:
+        'ESP32 smartwatch OS, Speeduino ECU for the Subaru GC8 race build, ROS robotics, and open-car electronics.',
+      tags: ['esp32', 'speeduino', 'ros', 'ecu'],
+      docsHref: '/hardware',
+      githubHref: 'https://github.com/vitorecomp?tab=repositories',
+    },
+  ]}
+/>
+
+<TerminalCallout command="pnpm sync">
+  All project pages under <code>content/systems/</code>, <code>content/ai/</code>, <code>content/hardware/</code>, <code>content/cloud-devtools/</code>, and <code>content/repositories.mdx</code> are automatically synced from <code>github.com/vitorecomp</code> using <code>scripts/sync-github-projects.mjs</code>.
+</TerminalCallout>

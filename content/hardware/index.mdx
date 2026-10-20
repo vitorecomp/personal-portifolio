@@ -1,0 +1,94 @@
+import { TerminalEyebrow, ProjectGrid } from '../../components/portfolio'
+
+<TerminalEyebrow command="ls /garage/hardware" />
+
+# Embedded, Robotics & Garage Builds
+
+Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, and open-source automotive ECU electronics for the Subaru GC8 race build.
+
+<ProjectGrid
+  accent="pink"
+  projects={[
+  {
+    "title": "ESP32 Watch OS",
+    "repo": "esp32-watch-so",
+    "path": "~/projects/esp32-watch-so",
+    "description": "A lightweight operating system for ESP32-based smartwatches, written close to the metal in C++.",
+    "tags": [
+      "c++",
+      "esp32",
+      "embedded",
+      "rtos"
+    ],
+    "docsHref": "/hardware/esp32-watch-so",
+    "githubHref": "https://github.com/vitorecomp/esp32-watch-so"
+  },
+  {
+    "title": "Speeduino ECU (GC8 Build)",
+    "repo": "speeduino",
+    "path": "~/projects/speeduino",
+    "description": "Arduino-based open engine management system powering the restored Subaru GC8 racing build.",
+    "tags": [
+      "c++",
+      "arduino",
+      "ecu",
+      "automotive"
+    ],
+    "docsHref": "/hardware/speeduino",
+    "githubHref": "https://github.com/vitorecomp/speeduino"
+  },
+  {
+    "title": "Open Car",
+    "repo": "open-car",
+    "path": "~/projects/open-car",
+    "description": "Umbrella project collecting repositories to build, wire, and repair a complete open-source car.",
+    "tags": [
+      "automotive",
+      "open-hardware",
+      "ecu"
+    ],
+    "docsHref": "/hardware/open-car",
+    "githubHref": "https://github.com/vitorecomp/open-car"
+  },
+  {
+    "title": "ROS–Blender Integration",
+    "repo": "ros-blender",
+    "path": "~/projects/ros-blender",
+    "description": "Plugin bridging Robot Operating System (ROS) simulation and visualization with Blender.",
+    "tags": [
+      "python",
+      "ros",
+      "blender",
+      "robotics"
+    ],
+    "docsHref": "/hardware/ros-blender",
+    "githubHref": "https://github.com/vitorecomp/ros-blender"
+  },
+  {
+    "title": "Computer Companion",
+    "repo": "computer-companion",
+    "path": "~/projects/computer-companion",
+    "description": "C++ desktop/hardware companion daemon and microcontroller interface.",
+    "tags": [
+      "c++",
+      "hardware",
+      "embedded"
+    ],
+    "docsHref": "/hardware/computer-companion",
+    "githubHref": "https://github.com/vitorecomp/computer-companion"
+  },
+  {
+    "title": "Rover Rev Controller",
+    "repo": "rover-rev-controller",
+    "path": "~/projects/rover-rev-controller",
+    "description": "Python control software for rover motor and telemetry management.",
+    "tags": [
+      "python",
+      "robotics",
+      "control"
+    ],
+    "docsHref": "/hardware/rover-rev-controller",
+    "githubHref": "https://github.com/vitorecomp/rover-rev-controller"
+  }
+]}
+/>
