@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "build:export": "NEXT_EXPORT=true next build --webpack",
     "start": "next start",
     "sync": "node scripts/sync-github-projects.mjs",
     "docker:build": "docker compose build",

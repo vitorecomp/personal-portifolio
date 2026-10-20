@@ -29,6 +29,14 @@ pnpm dev
 
 Visit `http://localhost:3000`.
 
+### Static Export & Cloud Deployment
+
+Cloud infrastructure (Terraform) and Google Cloud Build deployment pipelines are managed in the [`personal-infra`](https://github.com/vitorecomp/personal-infra) repository (`cloud/personal-portifolio/` and `cloud/infra/`). To generate the static export (`out/`) locally:
+
+```bash
+pnpm run build:export
+```
+
 ## Running with Docker & Docker Compose
 
 ```bash

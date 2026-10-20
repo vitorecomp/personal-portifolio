@@ -18,4 +18,5 @@ Centralize all of Vitor's (`vitorecomp`) GitHub projects and their `README.md` d
 
 - Syncs `README.md` files and repository metadata from `github.com/vitorecomp` via `scripts/sync-github-projects.mjs` (`pnpm sync`).
 - Categorizes projects into **Systems & CLI**, **AI & Agents**, **Hardware & Garage**, and **Cloud, Web & DevTools**, plus a full searchable **All Repositories** catalog.
-- Containerized for both Docker (`Dockerfile`, `docker-compose.yml`) and Podman (`podman-compose.yml`).
+- Containerized for local development with both Docker (`Dockerfile`, `docker-compose.yml`) and Podman (`podman-compose.yml`).
+- Deployed as a static export (`pnpm run build:export` -> `out/`) to Google Cloud Storage + Cloud CDN behind the shared Global HTTPS Load Balancer managed in `personal-infra/cloud/`.

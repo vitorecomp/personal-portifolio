@@ -10,8 +10,9 @@ Use **`pnpm`** (locked via `pnpm-lock.yaml` v9.0 / `pnpm@10.34.7`). Do not use `
 
 - **Install dependencies**: `pnpm i`
 - **Sync GitHub READMEs & catalog**: `pnpm sync` (runs `node scripts/sync-github-projects.mjs`)
-- **Start dev server**: `pnpm dev` (runs `next dev` at `http://localhost:3000`)
+- **Start dev server**: `pnpm dev` (runs `next dev --webpack` at `http://localhost:3000`)
 - **Production build**: `pnpm build` (runs `next build --webpack`)
+- **Static export build (for GCS / Cloud CDN)**: `pnpm run build:export` (runs `NEXT_EXPORT=true next build --webpack`, outputting static HTML to `out/` with `trailingSlash: true`; cloud deployment and Terraform live in `personal-infra/cloud/`)
 - **Start production server**: `pnpm start` (runs `next start`)
 - **Typecheck**: `pnpm tsc --noEmit`
 

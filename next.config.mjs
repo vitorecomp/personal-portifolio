@@ -7,7 +7,10 @@ const withNextra = nextra({
   },
 })
 
+const isStaticExport = process.env.NEXT_EXPORT === 'true'
+
 export default withNextra({
+  ...(isStaticExport ? { output: 'export', trailingSlash: true } : {}),
   reactStrictMode: true,
   devIndicators: false,
   images: {
