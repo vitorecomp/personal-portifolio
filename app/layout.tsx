@@ -1,6 +1,5 @@
 import React from 'react'
 import type { Metadata, Viewport } from 'next'
-import { JetBrains_Mono, Oswald, Space_Grotesk } from 'next/font/google'
 import Link from 'next/link'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Search } from 'nextra/components'
@@ -12,28 +11,6 @@ import {
 } from '../components/portfolio'
 import 'nextra-theme-docs/style.css'
 import '../styles/globals.css'
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  style: ['normal', 'italic'],
-  display: 'swap',
-  variable: '--font-jetbrains-mono',
-})
-
-const oswald = Oswald({
-  subsets: ['latin'],
-  weight: ['600', '700'],
-  display: 'swap',
-  variable: '--font-oswald',
-})
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  weight: ['600', '700'],
-  display: 'swap',
-  variable: '--font-space-grotesk',
-})
 
 export const viewport: Viewport = {
   themeColor: [
@@ -415,14 +392,8 @@ export default async function RootLayout({
   const pageMap = await getPageMap()
 
   return (
-    <html
-      lang="en"
-      dir="ltr"
-      className={`${jetbrainsMono.variable} ${oswald.variable} ${spaceGrotesk.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <SearchInitializer />
         <Layout
           navbar={navbar}
           search={<Search placeholder="SEARCH_INDEX // GREP -RI..." />}
@@ -439,6 +410,7 @@ export default async function RootLayout({
           }}
           footer={footer}
         >
+          <SearchInitializer />
           {children}
         </Layout>
       </body>

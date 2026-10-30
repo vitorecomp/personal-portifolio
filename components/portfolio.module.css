@@ -562,24 +562,22 @@
   background-color: var(--cybr-canvas);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .grid,
   .gridBento {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(10, minmax(0, 1fr));
   }
 
-  .gridBento {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .cardSpan40 {
+    grid-column: span 4 / span 4;
   }
 
-  .cardFeatured {
-    grid-column: span 2 / span 2;
+  .cardSpan50 {
+    grid-column: span 5 / span 5;
+  }
+
+  .cardSpan60 {
+    grid-column: span 6 / span 6;
   }
 }
 

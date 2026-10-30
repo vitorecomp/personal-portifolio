@@ -1,9 +1,7 @@
 :root {
-  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace,
-    SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-    monospace;
-  --font-display: var(--font-oswald), var(--font-space-grotesk), 'Oswald',
-    'Space Grotesk', 'JetBrains Mono', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-display: 'Oswald', 'Space Grotesk', 'JetBrains Mono', sans-serif;
 
   /* Cyber-Brutalist Core Palette (Light Mode Default) */
   --cybr-canvas: #f5f5f8;

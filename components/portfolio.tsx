@@ -46,6 +46,20 @@ export function SearchInitializer() {
   }, [setTheme])
 
   useEffect(() => {
+    if (
+      typeof document !== 'undefined' &&
+      !document.getElementById('cybr-fonts-css')
+    ) {
+      const link = document.createElement('link')
+      link.id = 'cybr-fonts-css'
+      link.rel = 'stylesheet'
+      link.href =
+        'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@600;700&display=swap'
+      document.head.appendChild(link)
+    }
+  }, [])
+
+  useEffect(() => {
     let cancelled = false
     const loadSearchEngine = () => {
       import('./search-index.generated.js')
@@ -449,8 +463,19 @@ export function ProjectGrid({
 
       <div className={bento ? styles.gridBento : styles.grid}>
         {projects.map((project, idx) => {
-          const isFeaturedSpan =
-            bento && (project.featured || idx === 0 || idx === 3)
+          const rowIdx = Math.floor(idx / 2)
+          const colIdx = idx % 2
+          const rowPattern = rowIdx % 3
+          const spanClass =
+            rowPattern === 0
+              ? colIdx === 0
+                ? styles.cardSpan60
+                : styles.cardSpan40
+              : rowPattern === 1
+                ? styles.cardSpan50
+                : colIdx === 0
+                  ? styles.cardSpan40
+                  : styles.cardSpan60
           const primaryLang = (
             project.language ||
             project.tags[0] ||
@@ -463,9 +488,7 @@ export function ProjectGrid({
           return (
             <article
               key={project.repo}
-              className={`${styles.card} ${
-                isFeaturedSpan ? styles.cardFeatured : ''
-              }`}
+              className={`${styles.card} ${spanClass}`}
             >
               {/* Top Brutalist Technical Schematic Preview */}
               <div className={styles.cardVisualPreview}>
