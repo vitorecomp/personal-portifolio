@@ -1,4 +1,4 @@
-import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # SEI MCP Server (Python)
 
@@ -13,8 +13,6 @@ import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
   isFork={false}
   githubUrl="https://github.com/vitorecomp/sei-mcp"
 />
-
-# 🏛️ SEI MCP Server (Python) — Model Context Protocol for SEI WebServices v3.1+
 
 An enterprise-grade **Model Context Protocol (MCP)** server built in **Python** that exposes the official **SEI (Sistema Eletrônico de Informações)** SOAP Web Services (`SEI-WebServices-v3.1.pdf` / `sei.wsdl`), **SIP (Sistema de Permissões)** Web Services, and **External RH** Web Services as **72 structured MCP tools** for **Google Cloud Gemini Enterprise**, Claude Desktop, Cursor, and MCP Inspector.
 
@@ -46,30 +44,7 @@ An enterprise-grade **Model Context Protocol (MCP)** server built in **Python** 
 
 ## 🏗️ System Architecture
 
-```mermaid
-flowchart LR
-    subgraph Clients["MCP Clients"]
-        GE["Google Cloud\nGemini Enterprise"]
-        IDE["Claude / Cursor /\nMCP Inspector"]
-    end
-
-    subgraph GCP["Google Cloud Platform (infra/ Terraform)"]
-        ALB["Global External HTTPS\nLoad Balancer + Static IP"]
-        NEG["Serverless NEG"]
-        CR["Cloud Run Service\n(sei-mcp-server Python)"]
-    end
-
-    subgraph GovEnv["SEI / SIP Environment"]
-        SEI["SEI SOAP WebService\n/sei/controlador_ws.php?servico=sei"]
-        SIP["SIP SOAP WebService\n/sip/controlador_ws.php?servico=wsdl"]
-    end
-
-    GE -- "StreamableHTTP (POST /mcp)\n+ OAuth 2.0 Bearer Token" --> ALB
-    IDE -- "SSE (/sse) or StreamableHTTP" --> ALB
-    ALB --> NEG --> CR
-    CR -- "SOAP 1.1 RPC/Encoded\n(SiglaSistema + IdentificacaoServico)" --> SEI
-    CR -- "SOAP 1.1 RPC/Encoded" --> SIP
-```
+<TerminalMermaid chart={"flowchart LR\n    subgraph Clients[\"MCP Clients\"]\n        GE[\"Google Cloud\\nGemini Enterprise\"]\n        IDE[\"Claude / Cursor /\\nMCP Inspector\"]\n    end\n\n    subgraph GCP[\"Google Cloud Platform (infra/ Terraform)\"]\n        ALB[\"Global External HTTPS\\nLoad Balancer + Static IP\"]\n        NEG[\"Serverless NEG\"]\n        CR[\"Cloud Run Service\\n(sei-mcp-server Python)\"]\n    end\n\n    subgraph GovEnv[\"SEI / SIP Environment\"]\n        SEI[\"SEI SOAP WebService\\n/sei/controlador_ws.php?servico=sei\"]\n        SIP[\"SIP SOAP WebService\\n/sip/controlador_ws.php?servico=wsdl\"]\n    end\n\n    GE -- \"StreamableHTTP (POST /mcp)\\n+ OAuth 2.0 Bearer Token\" --> ALB\n    IDE -- \"SSE (/sse) or StreamableHTTP\" --> ALB\n    ALB --> NEG --> CR\n    CR -- \"SOAP 1.1 RPC/Encoded\\n(SiglaSistema + IdentificacaoServico)\" --> SEI\n    CR -- \"SOAP 1.1 RPC/Encoded\" --> SIP"} />
 
 ---
 

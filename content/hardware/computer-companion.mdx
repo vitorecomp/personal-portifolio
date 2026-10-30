@@ -1,4 +1,4 @@
-import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # Computer Companion
 
@@ -14,8 +14,12 @@ import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
   githubUrl="https://github.com/vitorecomp/computer-companion"
 />
 
-<TerminalCallout command="cat ./README.md">
-  This repository has a minimal README on GitHub. Inspect the source tree, commits, and implementation directly at <a href="https://github.com/vitorecomp/computer-companion" target="_blank" rel="noopener noreferrer">github.com/vitorecomp/computer-companion</a>.
-</TerminalCallout>
-
-
+<RepoOverviewFallback
+  repo="computer-companion"
+  branch="main"
+  summary="C++ desktop/hardware companion daemon and microcontroller interface."
+  readmeSnippet=""
+  language="C++"
+  tags={["c++","hardware","embedded"]}
+  githubUrl="https://github.com/vitorecomp/computer-companion"
+/>

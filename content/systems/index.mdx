@@ -1,6 +1,4 @@
-import { TerminalEyebrow, ProjectGrid } from '../../components/portfolio'
-
-<TerminalEyebrow command="ls ~/projects/systems" />
+import { ProjectGrid } from '../../components/portfolio'
 
 # Systems, Search & CLI
 
@@ -8,6 +6,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
 
 <ProjectGrid
   accent="teal"
+  bento={true}
   projects={[
   {
     "title": "TurboVec",
@@ -20,6 +19,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
       "vector-index",
       "simd"
     ],
+    "featured": true,
     "docsHref": "/systems/turbovec",
     "githubHref": "https://github.com/vitorecomp/turbovec"
   },
@@ -33,6 +33,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
       "search-engine",
       "lucene"
     ],
+    "featured": true,
     "docsHref": "/systems/ruscene",
     "githubHref": "https://github.com/vitorecomp/ruscene"
   },
@@ -46,6 +47,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
       "cli",
       "filesystem"
     ],
+    "featured": true,
     "docsHref": "/systems/go-ls",
     "githubHref": "https://github.com/vitorecomp/go-ls"
   },
@@ -59,6 +61,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
       "javascript",
       "distributed"
     ],
+    "featured": true,
     "docsHref": "/systems/nos-system",
     "githubHref": "https://github.com/vitorecomp/Nos-System"
   },
@@ -72,6 +75,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
       "backend",
       "productivity"
     ],
+    "featured": false,
     "docsHref": "/systems/personal-life-manager",
     "githubHref": "https://github.com/vitorecomp/personal-life-manager"
   },
@@ -85,6 +89,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
       "x86",
       "steganography"
     ],
+    "featured": false,
     "docsHref": "/systems/asm-steganography",
     "githubHref": "https://github.com/vitorecomp/asm-steganography"
   },
@@ -97,6 +102,7 @@ High-performance engines, vector indexes, operating system primitives, and comma
       "rust",
       "systems"
     ],
+    "featured": false,
     "docsHref": "/systems/learning-projects",
     "githubHref": "https://github.com/vitorecomp/learning-projects"
   }

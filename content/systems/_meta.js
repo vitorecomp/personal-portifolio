@@ -1,5 +1,10 @@
 export default {
-  "index": "Overview (Systems & CLI)",
+  "index": {
+    "title": "Overview (Systems & CLI)",
+    "theme": {
+      "toc": false
+    }
+  },
   "turbovec": "TurboVec",
   "ruscene": "Ruscene",
   "go-ls": "go-ls",

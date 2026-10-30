@@ -1,6 +1,4 @@
-import { TerminalEyebrow, ProjectGrid } from '../../components/portfolio'
-
-<TerminalEyebrow command="git log --grep=ai --since=2012" />
+import { ProjectGrid } from '../../components/portfolio'
 
 # AI, OCR & Agentic Tools
 
@@ -8,6 +6,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
 
 <ProjectGrid
   accent="indigo"
+  bento={true}
   projects={[
   {
     "title": "AI Advanced OCR",
@@ -20,6 +19,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "ocr",
       "vision"
     ],
+    "featured": true,
     "docsHref": "/ai/ai-advanced-ocr",
     "githubHref": "https://github.com/vitorecomp/ai-advanced-ocr"
   },
@@ -34,6 +34,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "agents",
       "automation"
     ],
+    "featured": true,
     "docsHref": "/ai/sei-mcp",
     "githubHref": "https://github.com/vitorecomp/sei-mcp"
   },
@@ -47,6 +48,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "mcp",
       "playwright"
     ],
+    "featured": false,
     "docsHref": "/ai/sei-mcp-prodesp",
     "githubHref": "https://github.com/vitorecomp/sei-mcp-prodesp"
   },
@@ -60,6 +62,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "ai",
       "legal-tech"
     ],
+    "featured": true,
     "docsHref": "/ai/open-judy",
     "githubHref": "https://github.com/vitorecomp/open-judy"
   },
@@ -74,6 +77,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "gcp",
       "cli"
     ],
+    "featured": false,
     "docsHref": "/ai/gemini-enterprise-utils",
     "githubHref": "https://github.com/vitorecomp/gemini-enterprise-utils"
   },
@@ -87,6 +91,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "image-gen",
       "prompts"
     ],
+    "featured": false,
     "docsHref": "/ai/nanobanana-inspiration",
     "githubHref": "https://github.com/vitorecomp/nanobanana-inspiration"
   },
@@ -101,6 +106,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "racing",
       "obd"
     ],
+    "featured": true,
     "docsHref": "/ai/alissa-ai-racing-companion",
     "githubHref": "https://github.com/vitorecomp/alissa-ai-racing-companion"
   },
@@ -114,6 +120,7 @@ More than a decade of AI projects — from genetic algorithms and advanced OCR t
       "genetic-algorithms",
       "ai"
     ],
+    "featured": false,
     "docsHref": "/ai/genetic-training",
     "githubHref": "https://github.com/vitorecomp/genetic-training"
   }

@@ -428,31 +428,57 @@ function sanitizeMarkdownForMdx(markdown, repoName, branch) {
   // Normalize line endings
   let text = markdown.replace(/\r\n/g, '\n');
 
-  // Split by fenced code blocks (``` or ~~~) so we never touch code inside fences
+  // Split by fenced code blocks (``` or ~~~) so we never touch code inside fences,
+  // while converting ```mermaid blocks into <TerminalMermaid chart={...} />
   const lines = text.split('\n');
   const outLines = [];
   let inFence = false;
   let fenceMarker = '';
+  let isMermaidFence = false;
+  let mermaidBuffer = [];
 
   for (let line of lines) {
     const trimmed = line.trimStart();
-    const fenceMatch = trimmed.match(/^(`{3,}|~{3,})/);
+    const fenceMatch = trimmed.match(/^(`{3,}|~{3,})(.*)$/);
     if (fenceMatch) {
       if (!inFence) {
         inFence = true;
         fenceMarker = fenceMatch[1][0].repeat(fenceMatch[1].length);
-        outLines.push(line);
+        const infoString = (fenceMatch[2] || '').trim().toLowerCase();
+        if (infoString === 'mermaid') {
+          isMermaidFence = true;
+          mermaidBuffer = [];
+        } else {
+          isMermaidFence = false;
+          outLines.push(line);
+        }
         continue;
-      } else if (trimmed.startsWith(fenceMarker[0].repeat(fenceMarker.length))) {
+      } else if (
+        trimmed.startsWith(fenceMarker[0].repeat(fenceMarker.length)) &&
+        trimmed.replace(/^[`~]+/, '').trim() === ''
+      ) {
+        if (isMermaidFence) {
+          const chartStr = mermaidBuffer.join('\n').trim();
+          outLines.push(
+            `<TerminalMermaid chart={${JSON.stringify(chartStr)}} />`
+          );
+        } else {
+          outLines.push(line);
+        }
         inFence = false;
         fenceMarker = '';
-        outLines.push(line);
+        isMermaidFence = false;
+        mermaidBuffer = [];
         continue;
       }
     }
 
     if (inFence) {
-      outLines.push(line);
+      if (isMermaidFence) {
+        mermaidBuffer.push(line);
+      } else {
+        outLines.push(line);
+      }
       continue;
     }
 
@@ -566,8 +592,12 @@ function sanitizeMarkdownForMdx(markdown, repoName, branch) {
     outLines.push(line);
   }
 
-  // Strip leading H1 if it duplicates the page header, or keep it cleanly
-  return outLines.join('\n').trim();
+  // Strip leading ATX (# Title) or Setext (Title\n====) H1 if it duplicates the page header
+  let joined = outLines.join('\n').trim();
+  joined = joined.replace(/^#\s+[^\n]+(?:\n+---\s*)?\n*/u, '');
+  joined = joined.replace(/^[^\n]+\n={3,}\s*\n*/u, '');
+  joined = joined.replace(/^###\s+Hey,\s+I'm\s+Vitor\s+Vieira\s*\n*/iu, '');
+  return joined.trim();
 }
 
 async function main() {
@@ -591,7 +621,12 @@ async function main() {
     await fs.mkdir(categoryDir, { recursive: true });
 
     const categoryMeta = {
-      index: `Overview (${category.navTitle})`,
+      index: {
+        title: `Overview (${category.navTitle})`,
+        theme: {
+          toc: false,
+        },
+      },
     };
 
     for (const item of category.repos) {
@@ -607,9 +642,9 @@ async function main() {
       const usedBranch = readmeResult?.branch || defaultBranch;
       const sanitizedReadme = sanitizeMarkdownForMdx(rawReadme, item.repo, usedBranch);
 
-      const hasSubstantialReadme = sanitizedReadme.length > 60;
+      const hasSubstantialReadme = sanitizedReadme.length > 140;
 
-      const mdxContent = `import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+      const mdxContent = `import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # ${item.title}
 
@@ -628,11 +663,15 @@ async function main() {
 ${
   hasSubstantialReadme
     ? sanitizedReadme
-    : `<TerminalCallout command="cat ./README.md">
-  This repository has a minimal README on GitHub. Inspect the source tree, commits, and implementation directly at <a href="${repoUrl}" target="_blank" rel="noopener noreferrer">github.com/${GITHUB_USER}/${item.repo}</a>.
-</TerminalCallout>
-
-${sanitizedReadme}`
+    : `<RepoOverviewFallback
+  repo=${JSON.stringify(item.repo)}
+  branch=${JSON.stringify(usedBranch)}
+  summary=${JSON.stringify(item.summary)}
+  readmeSnippet=${JSON.stringify(sanitizedReadme)}
+  language=${JSON.stringify(language)}
+  tags={${JSON.stringify(item.tags)}}
+  githubUrl=${JSON.stringify(repoUrl)}
+/>`
 }
 `;
 
@@ -645,9 +684,7 @@ ${sanitizedReadme}`
     }
 
     // Create category index.mdx
-    const categoryIndexMdx = `import { TerminalEyebrow, ProjectGrid } from '../../components/portfolio'
-
-<TerminalEyebrow command=${JSON.stringify(category.command)} />
+    const categoryIndexMdx = `import { ProjectGrid } from '../../components/portfolio'
 
 # ${category.headline}
 
@@ -655,6 +692,7 @@ ${category.description}
 
 <ProjectGrid
   accent=${JSON.stringify(category.accent)}
+  bento={true}
   projects={${JSON.stringify(
     category.repos.map((r) => ({
       title: r.title,
@@ -662,6 +700,7 @@ ${category.description}
       path: `~/projects/${r.slug}`,
       description: r.summary,
       tags: r.tags,
+      featured: Boolean(r.featured),
       docsHref: `/${category.slug}/${r.slug}`,
       githubHref: `https://github.com/${GITHUB_USER}/${r.repo}`,
     })),
@@ -685,9 +724,7 @@ ${category.description}
     ? sanitizeMarkdownForMdx(profileReadme.text, 'vitorecomp', profileReadme.branch)
     : '';
 
-  const aboutMdx = `import { TerminalEyebrow, ProjectHeader } from '../components/portfolio'
-
-<TerminalEyebrow command="whoami && cat ~/vitorecomp/README.md" />
+  const aboutMdx = `import { ProjectHeader } from '../components/portfolio'
 
 # Hi, I'm Vitor
 
@@ -731,13 +768,11 @@ ${sanitizedProfile}
         updatedAt: r.pushed_at ? r.pushed_at.slice(0, 10) : '',
       }));
 
-    const reposPageMdx = `import { TerminalEyebrow, RepoCatalogTable } from '../components/portfolio'
-
-<TerminalEyebrow command="gh repo list vitorecomp --limit 100" />
+    const reposPageMdx = `import { RepoCatalogTable } from '../components/portfolio'
 
 # All GitHub Repositories
 
-Complete index of public repositories under [github.com/vitorecomp](https://github.com/vitorecomp). Featured projects include full synced documentation pages right here in the portfolio; every row links directly to the source repository.
+Complete index of public repositories under [github.com/vitorecomp](https://github.com/vitorecomp). Use the CLI flags and language pills below to filter by synced portfolio docs, source-only repositories, or primary language.
 
 <RepoCatalogTable repos={${JSON.stringify(catalogData, null, 2)}} />
 `;

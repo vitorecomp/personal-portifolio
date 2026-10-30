@@ -1,5 +1,10 @@
 export default {
-  "index": "Overview (Cloud, Web & DevTools)",
+  "index": {
+    "title": "Overview (Cloud, Web & DevTools)",
+    "theme": {
+      "toc": false
+    }
+  },
   "nobuffer-site": "vitorx86.dev (NoBuffer Site)",
   "performace-com": "Performance Benchmarks Catalog",
   "cloudform": "Cloudform",

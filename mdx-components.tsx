@@ -4,8 +4,11 @@ import {
   TerminalEyebrow,
   TerminalHero,
   ProjectGrid,
+  DirectoryExplorer,
   ProjectHeader,
   TerminalCallout,
+  TerminalMermaid,
+  RepoOverviewFallback,
   RepoCatalogTable,
 } from './components/portfolio'
 
@@ -30,8 +33,11 @@ export function useMDXComponents(components?: Record<string, any>) {
     TerminalEyebrow,
     TerminalHero,
     ProjectGrid,
+    DirectoryExplorer,
     ProjectHeader,
     TerminalCallout,
+    TerminalMermaid,
+    RepoOverviewFallback,
     RepoCatalogTable,
     ...components,
   }

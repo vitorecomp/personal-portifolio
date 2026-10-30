@@ -1,12 +1,40 @@
-import { TerminalEyebrow, RepoCatalogTable } from '../components/portfolio'
-
-<TerminalEyebrow command="gh repo list vitorecomp --limit 100" />
+import { RepoCatalogTable } from '../components/portfolio'
 
 # All GitHub Repositories
 
-Complete index of public repositories under [github.com/vitorecomp](https://github.com/vitorecomp). Featured projects include full synced documentation pages right here in the portfolio; every row links directly to the source repository.
+Complete index of public repositories under [github.com/vitorecomp](https://github.com/vitorecomp). Use the CLI flags and language pills below to filter by synced portfolio docs, source-only repositories, or primary language.
 
 <RepoCatalogTable repos={[
+  {
+    "name": "personal-portifolio",
+    "description": "Open-source repository on github.com/vitorecomp",
+    "language": "MDX",
+    "fork": false,
+    "stars": 0,
+    "url": "https://github.com/vitorecomp/personal-portifolio",
+    "docsHref": null,
+    "updatedAt": "2026-10-30"
+  },
+  {
+    "name": "personal-infra",
+    "description": "My common usage scripts",
+    "language": "Python",
+    "fork": false,
+    "stars": 0,
+    "url": "https://github.com/vitorecomp/personal-infra",
+    "docsHref": null,
+    "updatedAt": "2026-10-30"
+  },
+  {
+    "name": "open-judy",
+    "description": "Open source - Juditiaty sysmte template to use ai",
+    "language": "TypeScript",
+    "fork": false,
+    "stars": 1,
+    "url": "https://github.com/vitorecomp/open-judy",
+    "docsHref": "/ai/open-judy",
+    "updatedAt": "2026-10-30"
+  },
   {
     "name": "vitorecomp",
     "description": "Github profile",
@@ -15,7 +43,27 @@ Complete index of public repositories under [github.com/vitorecomp](https://gith
     "stars": 0,
     "url": "https://github.com/vitorecomp/vitorecomp",
     "docsHref": null,
-    "updatedAt": "2026-10-19"
+    "updatedAt": "2026-10-30"
+  },
+  {
+    "name": "personal-blog",
+    "description": "Open-source repository on github.com/vitorecomp",
+    "language": "Handlebars",
+    "fork": false,
+    "stars": 0,
+    "url": "https://github.com/vitorecomp/personal-blog",
+    "docsHref": null,
+    "updatedAt": "2026-10-29"
+  },
+  {
+    "name": "nobuffer-site",
+    "description": "My Personal Website!!",
+    "language": "Python",
+    "fork": false,
+    "stars": 0,
+    "url": "https://github.com/vitorecomp/nobuffer-site",
+    "docsHref": "/cloud-devtools/nobuffer-site",
+    "updatedAt": "2026-10-20"
   },
   {
     "name": "go-ls",
@@ -58,16 +106,6 @@ Complete index of public repositories under [github.com/vitorecomp](https://gith
     "updatedAt": "2026-10-01"
   },
   {
-    "name": "open-judy",
-    "description": "Open source - Juditiaty sysmte template to use ai",
-    "language": "TypeScript",
-    "fork": false,
-    "stars": 1,
-    "url": "https://github.com/vitorecomp/open-judy",
-    "docsHref": "/ai/open-judy",
-    "updatedAt": "2026-08-13"
-  },
-  {
     "name": "sei-mcp-prodesp",
     "description": "Open-source repository on github.com/vitorecomp",
     "language": "TypeScript",
@@ -76,16 +114,6 @@ Complete index of public repositories under [github.com/vitorecomp](https://gith
     "url": "https://github.com/vitorecomp/sei-mcp-prodesp",
     "docsHref": "/ai/sei-mcp-prodesp",
     "updatedAt": "2026-08-12"
-  },
-  {
-    "name": "nobuffer-site",
-    "description": "My Personal Website!!",
-    "language": "Python",
-    "fork": false,
-    "stars": 0,
-    "url": "https://github.com/vitorecomp/nobuffer-site",
-    "docsHref": "/cloud-devtools/nobuffer-site",
-    "updatedAt": "2026-08-11"
   },
   {
     "name": "nanobanana-inspiration",
@@ -398,16 +426,6 @@ Complete index of public repositories under [github.com/vitorecomp](https://gith
     "updatedAt": "2023-03-22"
   },
   {
-    "name": "personal-portifolio",
-    "description": "Open-source repository on github.com/vitorecomp",
-    "language": "TypeScript",
-    "fork": false,
-    "stars": 0,
-    "url": "https://github.com/vitorecomp/personal-portifolio",
-    "docsHref": null,
-    "updatedAt": "2023-02-28"
-  },
-  {
     "name": "DO378-apps",
     "description": "Open-source repository on github.com/vitorecomp",
     "language": "Misc",
@@ -476,16 +494,6 @@ Complete index of public repositories under [github.com/vitorecomp](https://gith
     "url": "https://github.com/vitorecomp/DO288-apps",
     "docsHref": null,
     "updatedAt": "2022-09-22"
-  },
-  {
-    "name": "personal-infra",
-    "description": "My common usage scripts",
-    "language": "Misc",
-    "fork": false,
-    "stars": 0,
-    "url": "https://github.com/vitorecomp/personal-infra",
-    "docsHref": null,
-    "updatedAt": "2022-08-28"
   },
   {
     "name": "linux-setup",

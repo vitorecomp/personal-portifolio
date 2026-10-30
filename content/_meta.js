@@ -1,23 +1,39 @@
 export default {
-  index: './portfolio',
+  '---workspace': {
+    type: 'separator',
+    title: '# WORKSPACE',
+  },
+  index: {
+    title: './portfolio',
+    theme: {
+      toc: false,
+      breadcrumb: false,
+    },
+  },
+  repositories: {
+    title: './all_repos',
+    theme: {
+      toc: false,
+    },
+  },
+  about: './about',
+  '---directories': {
+    type: 'separator',
+    title: '# DIRECTORIES',
+  },
   systems: '~/systems-and-cli',
   ai: '~/ai-and-agents',
   hardware: '~/backyard-mech',
   'cloud-devtools': '~/cloud-and-devtools',
-  repositories: './all_repos',
-  about: {
-    title: './about',
+  vitorx86: {
+    title: './vitorx86.dev',
     type: 'page',
+    href: 'https://vitorx86.dev',
   },
   blog: {
     title: './blog',
     type: 'page',
     href: 'https://blog.vitorx86.dev',
-  },
-  vitorx86: {
-    title: './vitorx86.dev',
-    type: 'page',
-    href: 'https://vitorx86.dev',
   },
   linkedin: {
     title: './linkedin',

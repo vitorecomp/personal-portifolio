@@ -1,27 +1,28 @@
 import {
   TerminalHero,
-  TerminalEyebrow,
   ProjectGrid,
+  DirectoryExplorer,
   TerminalCallout,
 } from '../components/portfolio'
 
 <TerminalHero />
 
-<TerminalEyebrow command="ls ~/projects/featured" />
-
 ## Featured Builds
 
-Selected open-source repositories from [github.com/vitorecomp](https://github.com/vitorecomp) — click `$ ./read_docs.sh` on any terminal window to read its synced documentation and `README.md`, or `./github ↗` to jump straight to the source tree.
+Selected open-source repositories from [github.com/vitorecomp](https://github.com/vitorecomp) — click `$ ./read_docs.sh` on any terminal window to inspect its synced documentation, architecture diagrams, and `README.md`, or `./github ↗` to jump straight to the source tree.
 
 <ProjectGrid
   accent="teal"
+  bento={true}
   projects={[
     {
       title: 'TurboVec',
       repo: 'turbovec',
       path: '~/projects/turbovec',
+      language: 'Rust / SIMD',
+      featured: true,
       description:
-        'A vector index built on TurboQuant, written in Rust with Python bindings and SIMD acceleration.',
+        'High-speed vector index built on Google Research TurboQuant, written in Rust with Python bindings and hand-tuned AVX-512 / NEON SIMD kernels.',
       tags: ['rust', 'python', 'vector-index', 'simd'],
       docsHref: '/systems/turbovec',
       githubHref: 'https://github.com/vitorecomp/turbovec',
@@ -30,8 +31,9 @@ Selected open-source repositories from [github.com/vitorecomp](https://github.co
       title: 'Ruscene',
       repo: 'ruscene',
       path: '~/projects/ruscene',
+      language: 'Rust',
       description:
-        'A Lucene-style full-text search engine implemented from scratch in Rust.',
+        'A Lucene-style full-text search engine architecture implemented from scratch in Rust.',
       tags: ['rust', 'search-engine', 'lucene'],
       docsHref: '/systems/ruscene',
       githubHref: 'https://github.com/vitorecomp/ruscene',
@@ -40,6 +42,7 @@ Selected open-source repositories from [github.com/vitorecomp](https://github.co
       title: 'go-ls',
       repo: 'go-ls',
       path: '~/projects/go-ls',
+      language: 'Go',
       description:
         'A complete ls rewritten in Go — everything the original does, plus icons, tree views, and extra features.',
       tags: ['go', 'cli', 'filesystem'],
@@ -47,52 +50,48 @@ Selected open-source repositories from [github.com/vitorecomp](https://github.co
       githubHref: 'https://github.com/vitorecomp/go-ls',
     },
     {
-      title: 'Nos-System',
-      repo: 'Nos-System',
-      path: '~/projects/nos-system',
-      description:
-        'A framework for controlling node-oriented services, built around a super-node concept.',
-      tags: ['c++', 'javascript', 'distributed'],
-      docsHref: '/systems/nos-system',
-      githubHref: 'https://github.com/vitorecomp/Nos-System',
-    },
-    {
       title: 'SEI MCP Server',
       repo: 'sei-mcp',
       path: '~/projects/sei-mcp',
+      language: 'Python / MCP',
+      featured: true,
       description:
-        'Full-featured Model Context Protocol (MCP) server for automating workflows in the SEI system.',
-      tags: ['python', 'mcp', 'agents', 'automation'],
+        'Enterprise Model Context Protocol (MCP) server exposing 72 official SEI v3.1+ SOAP, SIP, and RH tools with Google Cloud Gemini Enterprise OAuth 2.0.',
+      tags: ['python', 'mcp', 'gemini', 'automation'],
       docsHref: '/ai/sei-mcp',
       githubHref: 'https://github.com/vitorecomp/sei-mcp',
-    },
-    {
-      title: 'AI Advanced OCR',
-      repo: 'ai-advanced-ocr',
-      path: '~/projects/ai-advanced-ocr',
-      description:
-        'Experiments pushing document OCR beyond the basics with modern vision and AI models.',
-      tags: ['python', 'ai', 'ocr'],
-      docsHref: '/ai/ai-advanced-ocr',
-      githubHref: 'https://github.com/vitorecomp/ai-advanced-ocr',
     },
     {
       title: 'Open Judy',
       repo: 'open-judy',
       path: '~/projects/open-judy',
+      language: 'TypeScript / Quarkus',
       description:
-        'Open-source judiciary system template designed for AI-assisted legal workflows.',
-      tags: ['typescript', 'ai', 'legal-tech'],
+        'Cloud-native judiciary AI platform with Gemini diarization, automated hearing minutes, AlloyDB pgvector RAG, and Keycloak OIDC.',
+      tags: ['typescript', 'quarkus', 'gemini', 'pgvector'],
       docsHref: '/ai/open-judy',
       githubHref: 'https://github.com/vitorecomp/open-judy',
+    },
+    {
+      title: 'AI Advanced OCR',
+      repo: 'ai-advanced-ocr',
+      path: '~/projects/ai-advanced-ocr',
+      language: 'Python',
+      description:
+        'Document intelligence and OCR benchmarking suite pushing beyond traditional pipelines with modern multimodal vision models.',
+      tags: ['python', 'ai', 'ocr', 'vision'],
+      docsHref: '/ai/ai-advanced-ocr',
+      githubHref: 'https://github.com/vitorecomp/ai-advanced-ocr',
     },
     {
       title: 'ESP32 Watch OS',
       repo: 'esp32-watch-so',
       path: '~/projects/esp32-watch-so',
+      language: 'C++ / ESP32',
+      featured: true,
       description:
-        'A tiny operating system for ESP32-based watches, written close to the metal in C++.',
-      tags: ['c++', 'esp32', 'embedded'],
+        'A tiny, close-to-the-metal operating system for ESP32-based smartwatches written in C++.',
+      tags: ['c++', 'esp32', 'embedded', 'rtos'],
       docsHref: '/hardware/esp32-watch-so',
       githubHref: 'https://github.com/vitorecomp/esp32-watch-so',
     },
@@ -100,55 +99,69 @@ Selected open-source repositories from [github.com/vitorecomp](https://github.co
       title: 'Alissa — AI Racing Companion',
       repo: 'alissa-ai-racing-companion',
       path: '~/projects/alissa',
+      language: 'AI / OBD',
       description:
-        'AI racing companion — OBD telemetry, tuning help, diagnostics, and race insights for old shitboxes.',
-      tags: ['ai', 'telemetry', 'racing'],
+        'AI racing pit-crew companion — OBD telemetry, tuning help, diagnostics, and race insights for track builds.',
+      tags: ['ai', 'telemetry', 'racing', 'obd'],
       docsHref: '/ai/alissa-ai-racing-companion',
       githubHref: 'https://github.com/vitorecomp/alissa-ai-racing-companion',
     },
   ]}
 />
 
-<TerminalEyebrow command="ls -d ~/projects/*" />
-
 ## Browse by Directory
 
-<ProjectGrid
-  accent="indigo"
-  projects={[
+Navigate the four curated project directories below or inspect the full searchable index in [`./all_repos`](/repositories).
+
+<DirectoryExplorer
+  directories={[
     {
-      title: 'Systems & CLI',
-      repo: 'dir-systems',
+      command: 'cd ~/systems-and-cli',
       path: '~/systems-and-cli',
+      title: 'Systems, Search & CLI',
       description:
-        'Vector indexes, full-text search engines, CLI replacements, and low-level Rust, Go, C++, and x86 Assembly code.',
+        'Vector indexes, full-text search engines, CLI replacements, distributed super-node frameworks, and x86 Assembly.',
+      count: 7,
       tags: ['rust', 'go', 'c++', 'x86-asm'],
-      docsHref: '/systems',
-      githubHref: 'https://github.com/vitorecomp?tab=repositories',
+      href: '/systems',
+      accent: 'teal',
     },
     {
-      title: 'AI, OCR & Agents',
-      repo: 'dir-ai',
+      command: 'cd ~/ai-and-agents',
       path: '~/ai-and-agents',
+      title: 'AI, MCP & Agents',
       description:
-        'MCP servers, Gemini enterprise utilities, OCR pipelines, genetic algorithms, and AI racing telemetry.',
-      tags: ['mcp', 'gemini', 'ocr', 'python'],
-      docsHref: '/ai',
-      githubHref: 'https://github.com/vitorecomp?tab=repositories',
+        'Model Context Protocol (MCP) servers, Gemini Enterprise utilities, multimodal OCR pipelines, AlloyDB RAG, and AI racing telemetry.',
+      count: 8,
+      tags: ['mcp', 'gemini', 'ocr', 'python', 'typescript'],
+      href: '/ai',
+      accent: 'indigo',
     },
     {
-      title: 'Hardware & Backyard Mech',
-      repo: 'dir-hardware',
+      command: 'cd ~/backyard-mech',
       path: '~/backyard-mech',
+      title: 'Hardware & Backyard Mech',
       description:
-        'ESP32 smartwatch OS, Speeduino ECU for the Subaru GC8 race build, ROS robotics, and open-car electronics.',
-      tags: ['esp32', 'speeduino', 'ros', 'ecu'],
-      docsHref: '/hardware',
-      githubHref: 'https://github.com/vitorecomp?tab=repositories',
+        'ESP32 smartwatch OS firmware, Speeduino ECU for the Subaru GC8 race build, ROS–Blender robotics, and open-car electronics.',
+      count: 6,
+      tags: ['esp32', 'speeduino', 'ros', 'ecu', 'c++'],
+      href: '/hardware',
+      accent: 'pink',
+    },
+    {
+      command: 'cd ~/cloud-and-devtools',
+      path: '~/cloud-and-devtools',
+      title: 'Cloud, Web & DevTools',
+      description:
+        'Multi-cloud IaC, Quarkus & Node.js microservices benchmarks, Kong API gateway client, and Linux/Sway/Neovim workstation dotfiles.',
+      count: 13,
+      tags: ['gcp', 'quarkus', 'docker', 'neovim', 'sway'],
+      href: '/cloud-devtools',
+      accent: 'teal',
     },
   ]}
 />
 
 <TerminalCallout command="pnpm sync">
-  All project pages under <code>content/systems/</code>, <code>content/ai/</code>, <code>content/hardware/</code>, <code>content/cloud-devtools/</code>, and <code>content/repositories.mdx</code> are automatically synced from <code>github.com/vitorecomp</code> using <code>scripts/sync-github-projects.mjs</code>.
+  All project pages under <code>content/systems/</code>, <code>content/ai/</code>, <code>content/hardware/</code>, <code>content/cloud-devtools/</code>, and <code>content/repositories.mdx</code> are automatically synced from <code>github.com/vitorecomp</code> via <code>scripts/sync-github-projects.mjs</code>.
 </TerminalCallout>

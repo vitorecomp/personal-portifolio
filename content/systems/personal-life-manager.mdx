@@ -1,4 +1,4 @@
-import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # Personal Life Manager
 
@@ -14,40 +14,13 @@ import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
   githubUrl="https://github.com/vitorecomp/personal-life-manager"
 />
 
-# 🧠 Personal Life Manager (Second Brain)
-
 A modular, automated **Second Brain** platform designed to capture external knowledge, synthesize insights using AI, track personal goals and routines, and automate background tasks.
 
 ---
 
 ## 🏗️ Architecture Overview
 
-```mermaid
-flowchart TD
-    subgraph Capture["1. Capture & Automation"]
-        CR["crawlers/\nWeb, RSS, Bookmarks"]
-        SCH["sub-systems/\nAutomated bots, Simulation tools"]
-    end
-
-    subgraph Infrastructure["2. Infrastructure (infra-deploy/)"]
-        PG[("PostgreSQL + pgvector")]
-        RD[("Redis Queue")]
-    end
-
-    subgraph Brain["3. Intelligence Core (hermes/)"]
-        HERMES["Hermes Engine\n(Embedding, LLM Synthesis, Search API)"]
-    end
-
-    subgraph LifeOps["4. Personal Execution"]
-        PS["personal-system/\nGoals, Routines, Daily Logs"]
-    end
-
-    CR --> RD
-    SCH --> RD
-    RD --> HERMES
-    HERMES <--> PG
-    PS <--> HERMES
-```
+<TerminalMermaid chart={"flowchart TD\n    subgraph Capture[\"1. Capture & Automation\"]\n        CR[\"crawlers/\\nWeb, RSS, Bookmarks\"]\n        SCH[\"sub-systems/\\nAutomated bots, Simulation tools\"]\n    end\n\n    subgraph Infrastructure[\"2. Infrastructure (infra-deploy/)\"]\n        PG[(\"PostgreSQL + pgvector\")]\n        RD[(\"Redis Queue\")]\n    end\n\n    subgraph Brain[\"3. Intelligence Core (hermes/)\"]\n        HERMES[\"Hermes Engine\\n(Embedding, LLM Synthesis, Search API)\"]\n    end\n\n    subgraph LifeOps[\"4. Personal Execution\"]\n        PS[\"personal-system/\\nGoals, Routines, Daily Logs\"]\n    end\n\n    CR --> RD\n    SCH --> RD\n    RD --> HERMES\n    HERMES <--> PG\n    PS <--> HERMES"} />
 
 ---
 

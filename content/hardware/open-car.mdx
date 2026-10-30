@@ -1,4 +1,4 @@
-import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # Open Car
 
@@ -14,5 +14,12 @@ import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
   githubUrl="https://github.com/vitorecomp/open-car"
 />
 
-# open-car
-Repo for the colletiong off repos build/repair a complete open source car
+<RepoOverviewFallback
+  repo="open-car"
+  branch="main"
+  summary="Umbrella project collecting repositories to build, wire, and repair a complete open-source car."
+  readmeSnippet="Repo for the colletiong off repos build/repair a complete open source car"
+  language="automotive"
+  tags={["automotive","open-hardware","ecu"]}
+  githubUrl="https://github.com/vitorecomp/open-car"
+/>

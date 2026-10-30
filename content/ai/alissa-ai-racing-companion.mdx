@@ -1,4 +1,4 @@
-import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # Alissa — AI Racing Companion
 
@@ -14,8 +14,12 @@ import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
   githubUrl="https://github.com/vitorecomp/alissa-ai-racing-companion"
 />
 
-<TerminalCallout command="cat ./README.md">
-  This repository has a minimal README on GitHub. Inspect the source tree, commits, and implementation directly at <a href="https://github.com/vitorecomp/alissa-ai-racing-companion" target="_blank" rel="noopener noreferrer">github.com/vitorecomp/alissa-ai-racing-companion</a>.
-</TerminalCallout>
-
-
+<RepoOverviewFallback
+  repo="alissa-ai-racing-companion"
+  branch="main"
+  summary="Open-source AI racing pit-crew companion — OBD telemetry, tuning help, diagnostics, and lap insights."
+  readmeSnippet=""
+  language="ai"
+  tags={["ai","telemetry","racing","obd"]}
+  githubUrl="https://github.com/vitorecomp/alissa-ai-racing-companion"
+/>

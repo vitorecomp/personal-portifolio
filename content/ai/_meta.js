@@ -1,5 +1,10 @@
 export default {
-  "index": "Overview (AI & Agents)",
+  "index": {
+    "title": "Overview (AI & Agents)",
+    "theme": {
+      "toc": false
+    }
+  },
   "ai-advanced-ocr": "AI Advanced OCR",
   "sei-mcp": "SEI MCP Server (Python)",
   "sei-mcp-prodesp": "SEI MCP Server (TypeScript)",

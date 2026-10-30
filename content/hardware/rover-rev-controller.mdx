@@ -1,4 +1,4 @@
-import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # Rover Rev Controller
 
@@ -14,9 +14,12 @@ import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
   githubUrl="https://github.com/vitorecomp/rover-rev-controller"
 />
 
-Redoing the RoverPylot libery
-==========
-
-Pilot the Brookstone Rover 2.0 and Rover Revolution from Python
-
-See http://home.wlu.edu/~levys/software/roverpylot/ for details.
+<RepoOverviewFallback
+  repo="rover-rev-controller"
+  branch="master"
+  summary="Python control software for rover motor and telemetry management."
+  readmeSnippet="Pilot the Brookstone Rover 2.0 and Rover Revolution from Python\n\nSee http://home.wlu.edu/~levys/software/roverpylot/ for details."
+  language="Python"
+  tags={["python","robotics","control"]}
+  githubUrl="https://github.com/vitorecomp/rover-rev-controller"
+/>

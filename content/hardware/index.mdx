@@ -1,6 +1,4 @@
-import { TerminalEyebrow, ProjectGrid } from '../../components/portfolio'
-
-<TerminalEyebrow command="ls /garage/hardware" />
+import { ProjectGrid } from '../../components/portfolio'
 
 # Embedded, Robotics & Garage Builds
 
@@ -8,6 +6,7 @@ Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, a
 
 <ProjectGrid
   accent="pink"
+  bento={true}
   projects={[
   {
     "title": "ESP32 Watch OS",
@@ -20,6 +19,7 @@ Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, a
       "embedded",
       "rtos"
     ],
+    "featured": true,
     "docsHref": "/hardware/esp32-watch-so",
     "githubHref": "https://github.com/vitorecomp/esp32-watch-so"
   },
@@ -34,6 +34,7 @@ Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, a
       "ecu",
       "automotive"
     ],
+    "featured": true,
     "docsHref": "/hardware/speeduino",
     "githubHref": "https://github.com/vitorecomp/speeduino"
   },
@@ -47,6 +48,7 @@ Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, a
       "open-hardware",
       "ecu"
     ],
+    "featured": false,
     "docsHref": "/hardware/open-car",
     "githubHref": "https://github.com/vitorecomp/open-car"
   },
@@ -61,6 +63,7 @@ Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, a
       "blender",
       "robotics"
     ],
+    "featured": false,
     "docsHref": "/hardware/ros-blender",
     "githubHref": "https://github.com/vitorecomp/ros-blender"
   },
@@ -74,6 +77,7 @@ Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, a
       "hardware",
       "embedded"
     ],
+    "featured": false,
     "docsHref": "/hardware/computer-companion",
     "githubHref": "https://github.com/vitorecomp/computer-companion"
   },
@@ -87,6 +91,7 @@ Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, a
       "robotics",
       "control"
     ],
+    "featured": false,
     "docsHref": "/hardware/rover-rev-controller",
     "githubHref": "https://github.com/vitorecomp/rover-rev-controller"
   }

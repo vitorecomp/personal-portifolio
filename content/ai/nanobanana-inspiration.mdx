@@ -1,4 +1,4 @@
-import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
+import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
 # NanoBanana Inspiration Arena
 
@@ -14,8 +14,12 @@ import { ProjectHeader, TerminalCallout } from '../../components/portfolio'
   githubUrl="https://github.com/vitorecomp/nanobanana-inspiration"
 />
 
-<TerminalCallout command="cat ./README.md">
-  This repository has a minimal README on GitHub. Inspect the source tree, commits, and implementation directly at <a href="https://github.com/vitorecomp/nanobanana-inspiration" target="_blank" rel="noopener noreferrer">github.com/vitorecomp/nanobanana-inspiration</a>.
-</TerminalCallout>
-
-
+<RepoOverviewFallback
+  repo="nanobanana-inspiration"
+  branch="main"
+  summary="Interactive prompt builder and arena web app for generating and comparing Nano Banana images."
+  readmeSnippet=""
+  language="ai"
+  tags={["ai","image-gen","prompts"]}
+  githubUrl="https://github.com/vitorecomp/nanobanana-inspiration"
+/>
