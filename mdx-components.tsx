@@ -29,10 +29,22 @@ function CleanAnchor(props: React.ComponentPropsWithoutRef<'a'>) {
   return <a {...props}>{children}</a>
 }
 
+function OptimizedImage(props: React.ComponentPropsWithoutRef<'img'>) {
+  return (
+    <img
+      loading="lazy"
+      decoding="async"
+      {...props}
+      alt={props.alt || 'Technical diagram'}
+    />
+  )
+}
+
 export function useMDXComponents(components?: Record<string, any>) {
   return {
     ...docsComponents,
     a: CleanAnchor,
+    img: OptimizedImage,
     TerminalEyebrow,
     TerminalHero,
     ProjectGrid,

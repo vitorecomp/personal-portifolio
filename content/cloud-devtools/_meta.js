@@ -2,7 +2,8 @@ export default {
   "index": {
     "title": "Overview (Cloud, Web & DevTools)",
     "theme": {
-      "toc": false
+      "toc": true,
+      "copyPage": false
     }
   },
   "nobuffer-site": "vitorx86.dev (NoBuffer Site)",

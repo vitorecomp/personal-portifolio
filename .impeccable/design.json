@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-30T19:18:30Z",
+  "source": "DESIGN.md",
+  "name": "cases.vitorx86.dev (personal-portifolio)",
+  "description": "Cyber-Brutalist engineering portfolio and GitHub documentation hub for vitorx86.dev — structural orthographic grids, 0px geometry, Electric Violet, and Acid Lime telemetry.",
+  "tokens": {
+    "colors": {
+      "cybr-canvas-light": "#F5F5F8",
+      "cybr-surface-light": "#FFFFFF",
+      "cybr-ink-light": "#09090D",
+      "cybr-muted-light": "#525264",
+      "cybr-grid-light": "#DCDCE5",
+      "cybr-canvas-dark": "#09090D",
+      "cybr-surface-dark": "#111118",
+      "cybr-ink-dark": "#F5F5F8",
+      "cybr-muted-dark": "#9E9EB5",
+      "cybr-grid-dark": "#262636",
+      "cybr-violet": "#7C3AED",
+      "cybr-violet-bright": "#8B5CF6",
+      "cybr-lime": "#D9F99D",
+      "cybr-lime-bright": "#BEF264",
+      "cybr-lime-border": "#4ADE80",
+      "cybr-alert-red": "#EF4444"
+    },
+    "typography": {
+      "display": {
+        "fontFamily": "\"Space Grotesk\", \"JetBrains Mono\", ui-monospace, monospace",
+        "fontSize": "clamp(2.6rem, 6.2vw, 4.9rem)",
+        "fontWeight": 800,
+        "lineHeight": 0.94,
+        "letterSpacing": "-0.04em"
+      },
+      "heading-1": {
+        "fontFamily": "\"Space Grotesk\", \"JetBrains Mono\", ui-monospace, monospace",
+        "fontSize": "clamp(1.75rem, 3.2vw, 2.55rem)",
+        "fontWeight": 800,
+        "lineHeight": 1.02,
+        "letterSpacing": "-0.03em"
+      },
+      "heading-2": {
+        "fontFamily": "\"Space Grotesk\", \"JetBrains Mono\", ui-monospace, monospace",
+        "fontSize": "clamp(1.4rem, 2.4vw, 1.85rem)",
+        "fontWeight": 700,
+        "lineHeight": 1.15,
+        "letterSpacing": "-0.02em"
+      },
+      "body": {
+        "fontFamily": "\"JetBrains Mono\", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "fontSize": "0.92rem",
+        "fontWeight": 400,
+        "lineHeight": 1.7
+      },
+      "telemetry": {
+        "fontFamily": "\"JetBrains Mono\", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "fontSize": "0.72rem",
+        "fontWeight": 700,
+        "lineHeight": 1.4,
+        "letterSpacing": "0.08em"
+      }
+    },
+    "spacing": {
+      "xs": "0.35rem",
+      "sm": "0.65rem",
+      "md": "1.1rem",
+      "lg": "1.35rem",
+      "xl": "2.25rem",
+      "2xl": "3.25rem"
+    },
+    "radii": {
+      "none": "0px"
+    }
+  },
+  "components": [
+    {
+      "name": "TerminalHero",
+      "description": "Architectural blueprint hero split into a 7:5 asymmetric grid with 3D isometric orthographic schematic SVG, live telemetry strip, and brutalist action buttons.",
+      "variants": ["default"]
+    },
+    {
+      "name": "CategoryHub",
+      "description": "Domain index hub (/systems, /ai, /hardware, /cloud-devtools) with domain-specific CAD SVG schematic, 3-cell module counter strip, and interactive #TAG chip filter bar.",
+      "variants": ["systems", "ai", "hardware", "cloud-devtools"]
+    },
+    {
+      "name": "ProjectGrid",
+      "description": "Structural 1px-collapsed architectural index grid of project cards with /01..0N counters, category/language badges, and directional ↗ CTA bars.",
+      "variants": ["teal", "indigo", "pink"]
+    },
+    {
+      "name": "ProjectHeader",
+      "description": "Unified single-banner architectural specification header with primary <h1>, 4-cell metadata bar, 1-click $ git clone copy bar, and direct GitHub actions.",
+      "variants": ["default"]
+    },
+    {
+      "name": "EngineerDossier",
+      "description": "Personnel & Architecture Dossier (/about) featuring identity readout, 4-cell live telemetry counters, framed GitHub contribution matrix, and language distribution bars.",
+      "variants": ["default"]
+    },
+    {
+      "name": "RepoCatalogTable",
+      "description": "Searchable, filterable, and sortable catalog of all public repositories with 4-cell telemetry header and [GRID ⊞] / [TABLE ≡] view mode switcher.",
+      "variants": ["grid", "table"]
+    },
+    {
+      "name": "CyberRightSidebarStats",
+      "description": "Sticky right-hand telemetry panel (260px desktop rail) with live UTC clock and route-aware context links across all 5 surface types.",
+      "variants": ["home", "category", "about", "repositories", "project"]
+    },
+    {
+      "name": "TerminalCallout",
+      "description": "Sharp 0px-radius technical callout block with left accent border and monospace header.",
+      "variants": ["info", "tip", "warning"]
+    },
+    {
+      "name": "TerminalMermaid",
+      "description": "Client-rendered Mermaid diagram inside an architectural blueprint frame with dark/light theme synchronization and ASCII source fallback.",
+      "variants": ["default"]
+    }
+  ]
+}

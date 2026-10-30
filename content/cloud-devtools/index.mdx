@@ -1,12 +1,16 @@
-import { ProjectGrid } from '../../components/portfolio'
+import { CategoryHub } from '../../components/portfolio'
 
-# Cloud, Microservices & Workstation
+export const metadata = {
+  title: "Cloud, Microservices & Workstation",
+  description: "Cloud infrastructure libraries, Quarkus & Node.js microservices benchmarks, API gateway clients, and Linux/Neovim/Sway workstation configs.",
+}
 
-Cloud infrastructure libraries, Quarkus & Node.js microservices benchmarks, API gateway clients, and Linux/Neovim/Sway workstation configs.
-
-<ProjectGrid
+<CategoryHub
+  code="DOM.04"
+  slug="cloud-devtools"
+  headline="Cloud, Microservices & Workstation"
+  description="Cloud infrastructure libraries, Quarkus & Node.js microservices benchmarks, API gateway clients, and Linux/Neovim/Sway workstation configs."
   accent="teal"
-  bento={true}
   projects={[
   {
     "title": "vitorx86.dev (NoBuffer Site)",

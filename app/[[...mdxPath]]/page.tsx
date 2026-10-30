@@ -21,8 +21,14 @@ export async function generateMetadata(props: {
   if (isIgnoredProbePath(params.mdxPath)) {
     return {}
   }
-  const { metadata } = await importPage(params.mdxPath)
-  return metadata
+  try {
+    const { metadata } = await importPage(params.mdxPath)
+    return metadata
+  } catch {
+    return {
+      title: '404 // Route Not Indexed',
+    }
+  }
 }
 
 const Wrapper = getMDXComponents().wrapper
@@ -34,20 +40,23 @@ export default async function Page(props: {
   if (isIgnoredProbePath(params.mdxPath)) {
     notFound()
   }
-  const {
-    default: MDXContent,
-    toc,
-    metadata,
-    sourceCode,
-  } = await importPage(params.mdxPath)
 
-  const isMainPage = !params.mdxPath || params.mdxPath.length === 0
+  let pageData: Awaited<ReturnType<typeof importPage>>
+  try {
+    pageData = await importPage(params.mdxPath)
+  } catch {
+    notFound()
+  }
+
+  const { default: MDXContent, toc, metadata, sourceCode } = pageData
+
+  const isHubOrIndexPage = !params.mdxPath || params.mdxPath.length <= 1
 
   return (
     <Wrapper
       toc={toc}
       metadata={metadata}
-      sourceCode={isMainPage ? '' : sourceCode}
+      sourceCode={isHubOrIndexPage ? '' : sourceCode}
     >
       <MDXContent {...props} params={params} />
     </Wrapper>

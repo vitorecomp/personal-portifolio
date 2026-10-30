@@ -2,7 +2,8 @@ export default {
   "index": {
     "title": "Overview (Hardware & Garage)",
     "theme": {
-      "toc": false
+      "toc": true,
+      "copyPage": false
     }
   },
   "esp32-watch-so": "ESP32 Watch OS",

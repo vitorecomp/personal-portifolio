@@ -2,7 +2,8 @@ export default {
   "index": {
     "title": "Overview (Systems & CLI)",
     "theme": {
-      "toc": false
+      "toc": true,
+      "copyPage": false
     }
   },
   "turbovec": "TurboVec",

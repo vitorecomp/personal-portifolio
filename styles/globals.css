@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@600;700&display=swap');
-
 :root {
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace;
-  --font-display: 'Oswald', 'Space Grotesk', 'JetBrains Mono', sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace,
+    SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  --font-display: var(--font-oswald), var(--font-space-grotesk), 'Oswald',
+    'Space Grotesk', 'JetBrains Mono', sans-serif;
 
   /* Cyber-Brutalist Core Palette (Light Mode Default) */
   --cybr-canvas: #f5f5f8;
@@ -11,7 +11,7 @@
   --cybr-surface-alt: #ededf3;
   --cybr-ink: #09090d;
   --cybr-body: #272733;
-  --cybr-muted: #68687a;
+  --cybr-muted: #525264;
   --cybr-grid: #d8d8e3;
   --cybr-grid-strong: #09090d;
   --cybr-violet: #7c3aed;
@@ -44,7 +44,7 @@ html.dark,
   --cybr-surface-alt: #181824;
   --cybr-ink: #f5f5f8;
   --cybr-body: #d4d4e0;
-  --cybr-muted: #8e8ea3;
+  --cybr-muted: #9e9eb5;
   --cybr-grid: #252535;
   --cybr-grid-strong: #8b5cf6;
   --cybr-violet: #8b5cf6;
@@ -74,6 +74,28 @@ html.dark,
 
 html {
   background: rgb(var(--nextra-bg));
+  scrollbar-width: thin;
+  scrollbar-color: var(--cybr-violet) var(--cybr-canvas);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cybr-canvas);
+  border-left: 1px solid var(--cybr-grid);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cybr-violet);
+  border-radius: 0;
+}
+
+input,
+textarea {
+  caret-color: var(--cybr-violet);
 }
 
 /* Hide Next.js dev tools floating badge */
@@ -101,6 +123,7 @@ pre {
 body {
   background-color: var(--cybr-canvas);
   color: var(--cybr-body);
+  overflow-x: clip;
   background-image: linear-gradient(
       to right,
       rgba(124, 58, 237, 0.055) 1px,
@@ -254,6 +277,7 @@ article h1 {
   letter-spacing: -0.02em;
   line-height: 1.02 !important;
   color: var(--cybr-ink) !important;
+  text-wrap: balance;
 }
 
 article h2,
@@ -263,6 +287,7 @@ article h4 {
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--cybr-ink) !important;
+  text-wrap: balance;
 }
 
 article h2 {
@@ -282,6 +307,7 @@ article > ul > li,
 article > ol > li {
   line-height: 1.72;
   max-width: 72ch;
+  text-wrap: pretty;
 }
 
 /* Blockquotes: 0px Brutalist Spec Box */
@@ -312,6 +338,14 @@ article table {
   border: 1px solid var(--cybr-grid);
   background-color: var(--cybr-surface);
   font-size: 0.82rem;
+}
+
+@media (max-width: 768px) {
+  article table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 article thead tr {
@@ -355,5 +389,27 @@ article p > img[src*='badge.svg'] {
 footer {
   border-top: 1px solid var(--cybr-grid) !important;
   background-color: var(--cybr-canvas) !important;
-  padding-bottom: 0 !important;
+  padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+}
+
+/* Keyboard Focus Accessibility (:focus-visible) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cybr-violet) !important;
+  outline-offset: 2px !important;
+}
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

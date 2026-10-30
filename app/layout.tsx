@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Metadata, Viewport } from 'next'
+import { JetBrains_Mono, Oswald, Space_Grotesk } from 'next/font/google'
 import Link from 'next/link'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Search } from 'nextra/components'
@@ -12,10 +13,32 @@ import {
 import 'nextra-theme-docs/style.css'
 import '../styles/globals.css'
 
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+})
+
+const oswald = Oswald({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  display: 'swap',
+  variable: '--font-oswald',
+})
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
+})
+
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F5F5F8' },
-    { media: '(prefers-color-scheme: dark)', color: '#09090D' },
+    { media: '(prefers-color-scheme: light)', color: 'rgb(245, 245, 248)' },
+    { media: '(prefers-color-scheme: dark)', color: 'rgb(9, 9, 13)' },
   ],
 }
 
@@ -345,7 +368,7 @@ const footer = (
             style={{
               width: '7px',
               height: '7px',
-              backgroundColor: '#84cc16',
+              backgroundColor: 'var(--cybr-lime-border)',
               display: 'inline-block',
             }}
           />
@@ -356,7 +379,7 @@ const footer = (
           style={{
             padding: '0.7rem 1rem',
             backgroundColor: 'var(--cybr-violet)',
-            color: '#ffffff',
+            color: 'var(--cybr-surface)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -392,7 +415,12 @@ export default async function RootLayout({
   const pageMap = await getPageMap()
 
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html
+      lang="en"
+      dir="ltr"
+      className={`${jetbrainsMono.variable} ${oswald.variable} ${spaceGrotesk.variable}`}
+      suppressHydrationWarning
+    >
       <body suppressHydrationWarning>
         <SearchInitializer />
         <Layout

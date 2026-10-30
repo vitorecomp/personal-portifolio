@@ -1,26 +1,54 @@
 'use client'
 
-import React, { useEffect, useId, useMemo, useState } from 'react'
+import React, {
+  useDeferredValue,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import * as pagefindEngine from './search-index.generated.js'
 import styles from './portfolio.module.css'
-
-if (typeof window !== 'undefined') {
-  ;(window as any).pagefind = pagefindEngine
-}
 
 export function SearchInitializer() {
   useEffect(() => {
-    ;(window as any).pagefind = pagefindEngine
+    let cancelled = false
+    const loadSearchEngine = () => {
+      import('./search-index.generated.js')
+        .then((mod) => {
+          if (!cancelled && typeof window !== 'undefined') {
+            ;(window as any).pagefind = mod
+          }
+        })
+        .catch(() => {})
+    }
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const idleId = (window as any).requestIdleCallback(loadSearchEngine, {
+        timeout: 1500,
+      })
+      return () => {
+        cancelled = true
+        ;(window as any).cancelIdleCallback?.(idleId)
+      }
+    }
+
+    const timer = setTimeout(loadSearchEngine, 120)
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
   }, [])
   return null
 }
 
-export function CyberSysClock() {
+function UtcClockReadout() {
   const [timeStr, setTimeStr] = useState('14:42:08')
 
   useEffect(() => {
+    let timer: ReturnType<typeof setInterval> | null = null
     const update = () => {
       const now = new Date()
       const hh = String(now.getUTCHours()).padStart(2, '0')
@@ -28,16 +56,43 @@ export function CyberSysClock() {
       const ss = String(now.getUTCSeconds()).padStart(2, '0')
       setTimeStr(`${hh}:${mm}:${ss}`)
     }
-    update()
-    const timer = setInterval(update, 1000)
-    return () => clearInterval(timer)
+    const start = () => {
+      update()
+      if (!timer) {
+        timer = setInterval(update, 1000)
+      }
+    }
+    const stop = () => {
+      if (timer) {
+        clearInterval(timer)
+        timer = null
+      }
+    }
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        stop()
+      } else {
+        start()
+      }
+    }
+
+    start()
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      stop()
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
   }, [])
 
+  return <span className={styles.sysTimeValue}>{timeStr}</span>
+}
+
+export function CyberSysClock() {
   return (
     <div className={styles.navRightCluster}>
       <div className={styles.sysTimeBox} aria-label="System UTC Time">
         <span className={styles.sysTimeLabel}>SYS.TIME</span>
-        <span className={styles.sysTimeValue}>{timeStr}</span>
+        <UtcClockReadout />
         <span className={styles.sysTimeZone}>
           UTC+0 <span className={styles.sysTimeDot}>+</span>
         </span>
@@ -580,12 +635,11 @@ const DOMAIN_META: Record<
       { slug: 'sei-mcp', title: 'SEI-MCP Server' },
       { slug: 'sei-mcp-prodesp', title: 'SEI-MCP Prodesp' },
       { slug: 'open-judy', title: 'Open-Judy' },
-      { slug: 'alissa-ai-racing-companion', title: 'Alissa Racing AI' },
-      { slug: 'computer-companion', title: 'Computer Companion' },
-      { slug: 'deep-research-agent', title: 'Deep Research Agent' },
-      { slug: 'agent-skills', title: 'Agent Skills' },
+      { slug: 'gemini-enterprise-utils', title: 'Gemini Enterprise Utils' },
       { slug: 'ai-advanced-ocr', title: 'AI Advanced OCR' },
-      { slug: 'nn-c', title: 'Neural Network in C' },
+      { slug: 'alissa-ai-racing-companion', title: 'Alissa Racing AI' },
+      { slug: 'nanobanana-inspiration', title: 'NanoBanana Prompt Lab' },
+      { slug: 'genetic-training', title: 'Genetic Training' },
     ],
   },
   hardware: {
@@ -594,13 +648,11 @@ const DOMAIN_META: Record<
     stack: 'ESP32 / C / CAN-BUS / CAD',
     modules: [
       { slug: 'esp32-watch-so', title: 'ESP32 Watch OS' },
-      { slug: 'esp32-car-sensor-hub', title: 'ESP32 Car Sensor Hub' },
-      { slug: 'esp32-obd2-emulator', title: 'ESP32 OBD2 Emulator' },
-      { slug: 'open-car-telemetry', title: 'Open Car Telemetry' },
-      { slug: 'open-ecu-simulator', title: 'Open ECU Simulator' },
-      { slug: 'car-telemetry- viewer', title: 'Car Telemetry Viewer' },
-      { slug: 'my3d-printer', title: 'Klipper 3D Printer' },
-      { slug: 'controller-tools', title: 'Controller Tools' },
+      { slug: 'speeduino', title: 'Speeduino ECU' },
+      { slug: 'open-car', title: 'Open-Car Telemetry' },
+      { slug: 'ros-blender', title: 'ROS-Blender Bridge' },
+      { slug: 'computer-companion', title: 'Computer Companion' },
+      { slug: 'rover-rev-controller', title: 'Rover Rev Controller' },
     ],
   },
   'cloud-devtools': {
@@ -609,7 +661,14 @@ const DOMAIN_META: Record<
     stack: 'GCP / TERRAFORM / SWAY / LUA',
     modules: [
       { slug: 'nobuffer-site', title: 'vitorx86.dev (NoBuffer)' },
-      { slug: 'zerossl-google-domains-renewal', title: 'ZeroSSL Renewal' },
+      { slug: 'performace-com', title: 'Performance E-Com' },
+      { slug: 'cloudform', title: 'CloudForm IaC' },
+      { slug: 'kong-api-client', title: 'Kong API Client' },
+      { slug: 'auth-test', title: 'Auth-Test OAuth2' },
+      {
+        slug: 'certification-reniew-pipeline-container',
+        title: 'ZeroSSL Renewal',
+      },
       { slug: 'quarkus-microservices-social-net', title: 'Quarkus Social Net' },
       { slug: 'sway-dotfiles-cloud-top', title: 'Sway Dotfiles' },
       { slug: 'neovim-from-scratch', title: 'Neovim From Scratch' },
@@ -1008,10 +1067,24 @@ export function ProjectHeader({
   const cloneCmd = `git clone ${githubUrl}.git`
 
   function handleCopyClone() {
-    if (typeof navigator !== 'undefined' && navigator.clipboard) {
-      navigator.clipboard.writeText(cloneCmd).catch(() => {})
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(cloneCmd).catch(() => {})
+      } else if (typeof document !== 'undefined') {
+        const el = document.createElement('textarea')
+        el.value = cloneCmd
+        el.setAttribute('readonly', '')
+        el.style.position = 'absolute'
+        el.style.left = '-9999px'
+        document.body.appendChild(el)
+        el.select()
+        document.execCommand('copy')
+        document.body.removeChild(el)
+      }
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setCopied(false)
     }
   }
 
@@ -1049,6 +1122,7 @@ export function ProjectHeader({
           <button
             type="button"
             onClick={handleCopyClone}
+            aria-live="polite"
             className={styles.projectCloneBtn}
           >
             {copied ? 'COPIED [✓]' : 'COPY_CLONE [+]'}
@@ -1113,11 +1187,34 @@ export function TerminalMermaid({
   title?: string
 }) {
   const reactId = useId().replace(/[^a-zA-Z0-9]/g, '')
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
   const [svgHtml, setSvgHtml] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const [showSource, setShowSource] = useState(false)
   const [renderError, setRenderError] = useState(false)
 
   useEffect(() => {
+    const node = containerRef.current
+    if (!node || typeof IntersectionObserver === 'undefined') {
+      setIsVisible(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '320px 0px' }
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isVisible) return
     let cancelled = false
     async function renderDiagram() {
       try {
@@ -1132,22 +1229,24 @@ export function TerminalMermaid({
           fontFamily: '"JetBrains Mono", ui-monospace, monospace',
           themeVariables: {
             darkMode: true,
-            background: '#09090D',
-            primaryColor: '#181824',
-            primaryTextColor: '#F5F5F8',
-            primaryBorderColor: '#8B5CF6',
-            lineColor: '#BEF264',
-            secondaryColor: '#111118',
-            tertiaryColor: '#181824',
+            background: 'rgb(9, 9, 13)',
+            primaryColor: 'rgb(24, 24, 36)',
+            primaryTextColor: 'rgb(245, 245, 248)',
+            primaryBorderColor: 'rgb(139, 92, 246)',
+            lineColor: 'rgb(190, 242, 100)',
+            secondaryColor: 'rgb(17, 17, 24)',
+            tertiaryColor: 'rgb(24, 24, 36)',
           },
         })
         const { svg } = await mermaid.render(`mmd-${reactId}`, chart.trim())
         if (!cancelled) {
           setSvgHtml(svg)
+          setIsLoading(false)
         }
       } catch {
         if (!cancelled) {
           setRenderError(true)
+          setIsLoading(false)
         }
       }
     }
@@ -1155,10 +1254,10 @@ export function TerminalMermaid({
     return () => {
       cancelled = true
     }
-  }, [chart, reactId])
+  }, [chart, reactId, isVisible])
 
   return (
-    <div className={styles.mermaidWindow}>
+    <div ref={containerRef} className={styles.mermaidWindow}>
       <div className={styles.mermaidBar}>
         <div className={styles.projectHeaderDots}>
           <span className={styles.sectionIndex}>//SCHEMATIC</span>
@@ -1166,13 +1265,20 @@ export function TerminalMermaid({
         </div>
         <button
           type="button"
+          aria-pressed={showSource}
           onClick={() => setShowSource((prev) => !prev)}
           className={styles.mermaidToggleBtn}
         >
           {showSource || renderError ? 'RENDER_SVG [↗]' : 'VIEW_SOURCE [ ]'}
         </button>
       </div>
-      {!showSource && svgHtml && !renderError ? (
+      {!showSource && isLoading && !renderError ? (
+        <div className={styles.mermaidCanvas}>
+          <div className={styles.mermaidLoading} role="status">
+            <span>// COMPILING_VECTOR_SCHEMATIC [MERMAID_V11]...</span>
+          </div>
+        </div>
+      ) : !showSource && svgHtml && !renderError ? (
         <div
           className={styles.mermaidCanvas}
           dangerouslySetInnerHTML={{ __html: svgHtml }}
@@ -1570,8 +1676,8 @@ export function CategoryHub({
   slug: string
   headline: string
   description: string
-  accent?: 'teal' | 'green' | 'amber' | 'violet'
-  projects: ProjectCardItem[]
+  accent?: 'teal' | 'indigo' | 'pink'
+  projects: ProjectItem[]
 }) {
   const [selectedTag, setSelectedTag] = useState<string>('ALL')
 
@@ -1660,7 +1766,7 @@ export function CategoryHub({
           </div>
           <div className={styles.domainSchematicFoot}>
             <span>STATUS: ONLINE ●</span>
-            <span>MODULES: 0{projects.length}</span>
+            <span>MODULES: {String(projects.length).padStart(2, '0')}</span>
           </div>
         </div>
       </section>
@@ -1670,6 +1776,7 @@ export function CategoryHub({
           <span className={styles.filterPrompt}>// FILTER_BY_TAG:</span>
           <button
             type="button"
+            aria-pressed={selectedTag === 'ALL'}
             onClick={() => setSelectedTag('ALL')}
             className={
               selectedTag === 'ALL' ? styles.flagChipActive : styles.flagChip
@@ -1681,6 +1788,7 @@ export function CategoryHub({
             <button
               key={tag}
               type="button"
+              aria-pressed={selectedTag === tag}
               onClick={() =>
                 setSelectedTag((prev) => (prev === tag ? 'ALL' : tag))
               }
@@ -1693,7 +1801,7 @@ export function CategoryHub({
             </button>
           ))}
         </div>
-        <span className={styles.filterCount}>
+        <span className={styles.filterCount} aria-live="polite">
           [{filteredProjects.length} / {projects.length} SHOWN]
         </span>
       </div>
@@ -1761,6 +1869,8 @@ export function EngineerDossier({
   topics?: string[]
   lastUpdated?: string
 }) {
+  const [graphError, setGraphError] = useState(false)
+
   return (
     <div className={styles.dossierWrapper}>
       {/* /01 ENGINEER BIO & IDENTITY */}
@@ -1945,11 +2055,24 @@ export function EngineerDossier({
             <span>// COMMIT_FREQUENCY_HEATMAP [GITHUB.COM/VITORECOMP]</span>
             <span>DAILY_ACTIONS_SYNC ●</span>
           </div>
-          <img
-            src={contributionGraphUrl}
-            alt="GitHub contribution graph for vitorecomp"
-            className={styles.dossierGraphImg}
-          />
+          {graphError ? (
+            <div className={styles.mermaidLoading} role="status">
+              <span>
+                // OFFLINE_CACHE // {contributionsCount} CONTRIBUTIONS VERIFIED
+                ON GITHUB.COM/VITORECOMP
+              </span>
+            </div>
+          ) : (
+            <img
+              src={contributionGraphUrl}
+              alt="GitHub contribution graph for vitorecomp"
+              width={720}
+              height={140}
+              loading="lazy"
+              onError={() => setGraphError(true)}
+              className={styles.dossierGraphImg}
+            />
+          )}
         </div>
       </section>
 
@@ -2044,6 +2167,7 @@ export interface CatalogRepoItem {
 
 export function RepoCatalogTable({ repos }: { repos: CatalogRepoItem[] }) {
   const [query, setQuery] = useState('')
+  const deferredQuery = useDeferredValue(query)
   const [onlyWithDocs, setOnlyWithDocs] = useState(false)
   const [hideForks, setHideForks] = useState(false)
   const [selectedLang, setSelectedLang] = useState<string>('ALL')
@@ -2073,6 +2197,7 @@ export function RepoCatalogTable({ repos }: { repos: CatalogRepoItem[] }) {
   )
 
   const filtered = useMemo(() => {
+    const q = deferredQuery.trim().toLowerCase()
     const list = repos.filter((r) => {
       if (onlyWithDocs && !r.docsHref) return false
       if (hideForks && r.fork) return false
@@ -2082,8 +2207,7 @@ export function RepoCatalogTable({ repos }: { repos: CatalogRepoItem[] }) {
       ) {
         return false
       }
-      if (!query.trim()) return true
-      const q = query.toLowerCase()
+      if (!q) return true
       return (
         r.name.toLowerCase().includes(q) ||
         r.description.toLowerCase().includes(q) ||
@@ -2102,7 +2226,7 @@ export function RepoCatalogTable({ repos }: { repos: CatalogRepoItem[] }) {
       }
       return (b.updatedAt || '').localeCompare(a.updatedAt || '')
     })
-  }, [repos, query, onlyWithDocs, hideForks, selectedLang, sortBy])
+  }, [repos, deferredQuery, onlyWithDocs, hideForks, selectedLang, sortBy])
 
   return (
     <div className={styles.catalogWrapper}>
@@ -2267,7 +2391,32 @@ export function RepoCatalogTable({ repos }: { repos: CatalogRepoItem[] }) {
         </div>
       </div>
 
-      {viewMode === 'table' ? (
+      {filtered.length === 0 ? (
+        <div className={styles.emptyCatalogState}>
+          <span className={styles.sectionIndex}>
+            // ERR_NO_MATCH // 0 REPOSITORIES FOUND
+          </span>
+          <h3 className={styles.emptyCatalogTitle}>
+            NO REPOSITORIES MATCH CURRENT FILTER PARAMETERS
+          </h3>
+          <p className={styles.emptyCatalogDesc}>
+            Active query or language flags returned zero results across{' '}
+            {repos.length} indexed repositories.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setOnlyWithDocs(false)
+              setHideForks(false)
+              setSelectedLang('ALL')
+              setQuery('')
+            }}
+            className={styles.flagChipReset}
+          >
+            RESET ALL FILTERS [X]
+          </button>
+        </div>
+      ) : viewMode === 'table' ? (
         <div className={styles.catalogTableWrap}>
           <table className={styles.catalogTable}>
             <thead>

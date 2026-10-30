@@ -2,7 +2,8 @@ export default {
   "index": {
     "title": "Overview (AI & Agents)",
     "theme": {
-      "toc": false
+      "toc": true,
+      "copyPage": false
     }
   },
   "ai-advanced-ocr": "AI Advanced OCR",

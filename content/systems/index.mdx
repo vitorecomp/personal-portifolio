@@ -1,12 +1,16 @@
-import { ProjectGrid } from '../../components/portfolio'
+import { CategoryHub } from '../../components/portfolio'
 
-# Systems, Search & CLI
+export const metadata = {
+  title: "Systems, Search & CLI",
+  description: "High-performance engines, vector indexes, operating system primitives, and command-line tools written in Rust, Go, C++, and x86 Assembly.",
+}
 
-High-performance engines, vector indexes, operating system primitives, and command-line tools written in Rust, Go, C++, and x86 Assembly.
-
-<ProjectGrid
+<CategoryHub
+  code="DOM.01"
+  slug="systems"
+  headline="Systems, Search & CLI"
+  description="High-performance engines, vector indexes, operating system primitives, and command-line tools written in Rust, Go, C++, and x86 Assembly."
   accent="teal"
-  bento={true}
   projects={[
   {
     "title": "TurboVec",

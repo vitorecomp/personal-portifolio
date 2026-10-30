@@ -616,7 +616,9 @@ async function main() {
   const repoMap = new Map(allRepos.map((r) => [r.name.toLowerCase(), r]));
 
   // Generate category folders and project MDX pages
-  for (const category of CATEGORIES) {
+  for (let catIdx = 0; catIdx < CATEGORIES.length; catIdx++) {
+    const category = CATEGORIES[catIdx];
+    const domCode = `DOM.0${catIdx + 1}`;
     const categoryDir = path.join(CONTENT_DIR, category.slug);
     await fs.mkdir(categoryDir, { recursive: true });
 
@@ -624,7 +626,8 @@ async function main() {
       index: {
         title: `Overview (${category.navTitle})`,
         theme: {
-          toc: false,
+          toc: true,
+          copyPage: false,
         },
       },
     };
@@ -646,7 +649,10 @@ async function main() {
 
       const mdxContent = `import { ProjectHeader, TerminalCallout, TerminalMermaid, RepoOverviewFallback } from '../../components/portfolio'
 
-# ${item.title}
+export const metadata = {
+  title: ${JSON.stringify(item.title)},
+  description: ${JSON.stringify(item.summary)},
+}
 
 <ProjectHeader
   name=${JSON.stringify(item.title)}
@@ -683,16 +689,20 @@ ${
       );
     }
 
-    // Create category index.mdx
-    const categoryIndexMdx = `import { ProjectGrid } from '../../components/portfolio'
+    // Create category index.mdx using CategoryHub
+    const categoryIndexMdx = `import { CategoryHub } from '../../components/portfolio'
 
-# ${category.headline}
+export const metadata = {
+  title: ${JSON.stringify(category.headline)},
+  description: ${JSON.stringify(category.description)},
+}
 
-${category.description}
-
-<ProjectGrid
+<CategoryHub
+  code=${JSON.stringify(domCode)}
+  slug=${JSON.stringify(category.slug)}
+  headline=${JSON.stringify(category.headline)}
+  description=${JSON.stringify(category.description)}
   accent=${JSON.stringify(category.accent)}
-  bento={true}
   projects={${JSON.stringify(
     category.repos.map((r) => ({
       title: r.title,
@@ -718,32 +728,63 @@ ${category.description}
     );
   }
 
-  // Sync profile README into content/about.mdx
+  // Sync profile README telemetry into content/about.mdx using EngineerDossier
   const profileReadme = await fetchRepoReadme('vitorecomp', 'main');
-  const sanitizedProfile = profileReadme
-    ? sanitizeMarkdownForMdx(profileReadme.text, 'vitorecomp', profileReadme.branch)
-    : '';
+  const rawProfileText = profileReadme?.text || '';
 
-  const aboutMdx = `import { ProjectHeader } from '../components/portfolio'
+  // Parse live numbers from profile README if present
+  const contribMatch = rawProfileText.match(/(\d+)\s+contributions\s+in\s+the\s+last\s+year/i);
+  const contributionsCount = contribMatch ? Number(contribMatch[1]) : 858;
 
-# Hi, I'm Vitor
+  const langRegex = /\|\s*([A-Za-z0-9+#\s]+?)\s*\|\s*`[█░]+`\s*\|\s*([\d.]+)%\s*\|/g;
+  const parsedLanguages = [];
+  let langMatch;
+  while ((langMatch = langRegex.exec(rawProfileText)) !== null) {
+    parsedLanguages.push({
+      name: langMatch[1].trim(),
+      share: Number(langMatch[2]),
+    });
+  }
 
-<ProjectHeader
-  name="Vieira Vitor (vitorx86)"
-  repo="vitorecomp"
-  branch="main"
-  description="Google developer who loves coding, tinkering with hardware, and everything open source. Rust, Go, C++, AI, embedded systems, and race cars."
-  language="Rust / Go / C++ / Python"
-  tags={['open-source', 'systems', 'ai', 'embedded', 'motorsport']}
-  stars={0}
-  isFork={false}
-  githubUrl="https://github.com/vitorecomp"
+  const updateMatch = rawProfileText.match(/last update\s+([0-9-]+\s+[0-9:]+)/i);
+  const lastUpdated = updateMatch ? updateMatch[1] : new Date().toISOString().slice(0, 10);
+
+  const aboutMdx = `import { EngineerDossier } from '../components/portfolio'
+
+export const metadata = {
+  title: 'Engineer Spec // Vitor Vieira (vitorx86)',
+  description: 'Google Software Engineer & Systems/AI Architect — Rust, Go, C++, MCP, and embedded motorsport hardware.',
+}
+
+<EngineerDossier
+  repoCount={${allRepos.length || 93}}
+  starsCount={15}
+  forksCount={4}
+  followersCount={17}
+  prsCount={7}
+  contributionsCount={${contributionsCount}}
+  contributionGraphUrl="https://raw.githubusercontent.com/vitorecomp/vitorecomp/main/contribution-graph.svg"
+  languages={${JSON.stringify(
+    parsedLanguages.length > 0
+      ? parsedLanguages
+      : [
+          { name: 'Python', share: 22.0 },
+          { name: 'JavaScript', share: 15.6 },
+          { name: 'C', share: 12.1 },
+          { name: 'HTML', share: 10.7 },
+          { name: 'C++', share: 10.3 },
+          { name: 'Jupyter Notebook', share: 7.2 },
+          { name: 'Java', share: 5.5 },
+          { name: 'TypeScript', share: 4.9 },
+        ],
+    null,
+    2
+  )}}
+  lastUpdated=${JSON.stringify(lastUpdated)}
 />
-
-${sanitizedProfile}
 `;
   await fs.writeFile(path.join(CONTENT_DIR, 'about.mdx'), aboutMdx, 'utf8');
-  console.log('  ✓ synced content/about.mdx from github.com/vitorecomp/vitorecomp');
+  console.log('  ✓ synced content/about.mdx (EngineerDossier) from github.com/vitorecomp/vitorecomp');
 
   // Generate content/repositories.mdx with all public repos from GitHub
   if (allRepos.length > 0) {
@@ -770,9 +811,10 @@ ${sanitizedProfile}
 
     const reposPageMdx = `import { RepoCatalogTable } from '../components/portfolio'
 
-# All GitHub Repositories
-
-Complete index of public repositories under [github.com/vitorecomp](https://github.com/vitorecomp). Use the CLI flags and language pills below to filter by synced portfolio docs, source-only repositories, or primary language.
+export const metadata = {
+  title: 'All GitHub Repositories',
+  description: 'Complete searchable index of public repositories under github.com/vitorecomp.',
+}
 
 <RepoCatalogTable repos={${JSON.stringify(catalogData, null, 2)}} />
 `;

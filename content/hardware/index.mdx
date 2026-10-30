@@ -1,12 +1,16 @@
-import { ProjectGrid } from '../../components/portfolio'
+import { CategoryHub } from '../../components/portfolio'
 
-# Embedded, Robotics & Garage Builds
+export const metadata = {
+  title: "Embedded, Robotics & Garage Builds",
+  description: "Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, and open-source automotive ECU electronics for the Subaru GC8 race build.",
+}
 
-Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, and open-source automotive ECU electronics for the Subaru GC8 race build.
-
-<ProjectGrid
+<CategoryHub
+  code="DOM.03"
+  slug="hardware"
+  headline="Embedded, Robotics & Garage Builds"
+  description="Close-to-the-metal firmware, ESP32 smartwatch OS builds, ROS robotics plugins, and open-source automotive ECU electronics for the Subaru GC8 race build."
   accent="pink"
-  bento={true}
   projects={[
   {
     "title": "ESP32 Watch OS",
