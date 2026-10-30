@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
+import { SearchInitializer } from '../components/portfolio'
 import 'nextra-theme-docs/style.css'
 import '../styles/globals.css'
 
@@ -101,6 +102,14 @@ const footer = (
             ./vitorx86.dev
           </a>
           <a
+            href="https://blog.vitorx86.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#4ade80', textDecoration: 'none' }}
+          >
+            ./blog
+          </a>
+          <a
             href="https://github.com/vitorecomp"
             target="_blank"
             rel="noopener noreferrer"
@@ -155,13 +164,14 @@ export default async function RootLayout({
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <SearchInitializer />
         <Layout
           navbar={navbar}
           search={<Search placeholder='$ grep -ri "project" ~/portfolio...' />}
           pageMap={pageMap}
           docsRepositoryBase="https://github.com/vitorecomp/personal-portifolio/tree/main"
-          editLink="$ ./edit_on_github.sh ↗"
-          feedback={{ content: '$ ./open_issue.sh ↗' }}
+          editLink="$ ./edit_on_github.sh"
+          feedback={{ content: '$ ./open_issue.sh' }}
           sidebar={{ defaultMenuCollapseLevel: 1, toggleButton: true }}
           toc={{ title: '~$ cat ./toc.txt' }}
           footer={footer}

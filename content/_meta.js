@@ -9,13 +9,18 @@ export default {
     title: './about',
     type: 'page',
   },
+  blog: {
+    title: './blog',
+    type: 'page',
+    href: 'https://blog.vitorx86.dev',
+  },
   vitorx86: {
-    title: './vitorx86.dev ↗',
+    title: './vitorx86.dev',
     type: 'page',
     href: 'https://vitorx86.dev',
   },
   linkedin: {
-    title: './linkedin ↗',
+    title: './linkedin',
     type: 'page',
     href: 'https://www.linkedin.com/in/vieiravitor',
   },

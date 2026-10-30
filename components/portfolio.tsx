@@ -1,8 +1,20 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import * as pagefindEngine from './search-index.generated.js'
 import styles from './portfolio.module.css'
+
+if (typeof window !== 'undefined') {
+  ;(window as any).pagefind = pagefindEngine
+}
+
+export function SearchInitializer() {
+  useEffect(() => {
+    ;(window as any).pagefind = pagefindEngine
+  }, [])
+  return null
+}
 
 export interface ProjectItem {
   title: string
@@ -43,10 +55,15 @@ export function TerminalHero({
       </h1>
       <p className={styles.heroSubtitle}>{subtitle}</p>
       <div className={styles.ctaGroup}>
-        <Link href="/repositories" className={styles.terminalBtn}>
+        <a
+          href="https://blog.vitorx86.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.terminalBtn}
+        >
           <span className={styles.dollarPrefix}>$</span>
-          <span>./view_all_repos.sh</span>
-        </Link>
+          <span>./open_blog.sh ↗</span>
+        </a>
         <a
           href="https://vitorx86.dev"
           target="_blank"
@@ -273,7 +290,7 @@ export function RepoCatalogTable({ repos }: { repos: CatalogRepoItem[] }) {
 
       <div className={styles.repoList}>
         {filtered.map((repo) => (
-          <div key={repo.name} className={styles.repoRow}>
+          <div key={repo.name} id={`repo-${repo.name}`} className={styles.repoRow}>
             <div>
               <div className={styles.repoRowHeader}>
                 <span className={styles.repoRowName}>./{repo.name}</span>
@@ -285,7 +302,10 @@ export function RepoCatalogTable({ repos }: { repos: CatalogRepoItem[] }) {
               {repo.docsHref ? (
                 <Link href={repo.docsHref} className={styles.cardActionPrimary}>
                   <span className={styles.dollarPrefix}>$&nbsp;</span>
-                  <span>./read_docs.sh &rarr;</span>
+                  <span>./read_docs.sh</span>
+                  <span className={styles.arrow} aria-hidden="true">
+                    &rarr;
+                  </span>
                 </Link>
               ) : (
                 <span className={styles.projectHeaderComment}>

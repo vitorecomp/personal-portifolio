@@ -478,6 +478,7 @@ function sanitizeMarkdownForMdx(markdown, repoName, branch) {
 
     // 3. Rewrite relative Markdown links: [label](path) (negative lookbehind for !)
     line = line.replace(/(?<!!)\[([^\]]+)\]\(([^)]+)\)/g, (match, label, urlPart) => {
+      const cleanLabel = label.replace(/\s*↗$/u, '');
       const cleanUrl = urlPart.trim().split(/\s+/)[0];
       if (
         cleanUrl.startsWith('http://') ||
@@ -485,10 +486,12 @@ function sanitizeMarkdownForMdx(markdown, repoName, branch) {
         cleanUrl.startsWith('mailto:') ||
         cleanUrl.startsWith('#')
       ) {
-        return match;
+        return `[${cleanLabel}](${cleanUrl})`;
       }
-      const rel = cleanUrl.replace(/^\.?\//, '');
-      return `[${label}](${blobBase}/${rel})`;
+      const rel = cleanUrl
+        .replace(/^file:\/\/\/.*?\/(?:ai-advanced-ocr|sei-mcp(?:-prodesp)?|personal-life-manager)\//i, '')
+        .replace(/^\.?\//, '');
+      return `[${cleanLabel}](${blobBase}/${rel})`;
     });
 
     // 4. Convert HTML <img src="..."> to Markdown ![alt](src) (rewriting relative URLs)

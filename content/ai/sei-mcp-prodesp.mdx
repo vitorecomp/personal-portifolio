@@ -84,7 +84,7 @@ Equipped with dual transports (**StreamableHTTP** on `/mcp` and **SSE** on `/sse
 
 ## ⚙️ Configuration & Environment Variables
 
-Configure server behavior and SEI integration parameters in `.env` (refer to [`.env.example`](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/file:///usr/local/google/home/vieiravitor/workspace/opensource/sei-mcp/.env.example)):
+Configure server behavior and SEI integration parameters in `.env` (refer to [`.env.example`](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/.env.example)):
 
 ### Server & Security Settings
 
@@ -153,7 +153,7 @@ gcloud run deploy sei-mcp-server \
 
 ### Step 2: Provision Load Balancer & Static IP with Terraform
 
-Use the included Terraform module in [`infra/`](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/file:///usr/local/google/home/vieiravitor/workspace/opensource/sei-mcp/infra/README.md) to provision an External Application Load Balancer with a Serverless NEG pointing to your Cloud Run service.
+Use the included Terraform module in [`infra/`](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/infra/README.md) to provision an External Application Load Balancer with a Serverless NEG pointing to your Cloud Run service.
 
 1. Navigate to the infrastructure directory:
    ```bash
@@ -165,7 +165,7 @@ Use the included Terraform module in [`infra/`](https://github.com/vitorecomp/se
    cp terraform.tfvars.example terraform.tfvars
    ```
 
-3. Edit [`infra/terraform.tfvars`](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/file:///usr/local/google/home/vieiravitor/workspace/opensource/sei-mcp/infra/terraform.tfvars.example):
+3. Edit [`infra/terraform.tfvars`](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/infra/terraform.tfvars.example):
    ```hcl
    project_id             = "YOUR_GCP_PROJECT_ID"
    region                 = "southamerica-east1"
@@ -373,4 +373,4 @@ npm run dev
 
 ## 📄 License
 
-This project is licensed under the [MIT License](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/file:///usr/local/google/home/vieiravitor/workspace/opensource/sei-mcp/LICENSE).
+This project is licensed under the [MIT License](https://github.com/vitorecomp/sei-mcp-prodesp/blob/main/LICENSE).

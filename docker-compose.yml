@@ -7,7 +7,7 @@ services:
     image: personal-portifolio:prod
     container_name: personal-portifolio-app
     ports:
-      - "${PORT:-3000}:3000"
+      - "${PORT_PAD:-}${PORT:-3000}:3000"
     environment:
       NODE_ENV: production
       NEXT_TELEMETRY_DISABLED: "1"
@@ -23,7 +23,7 @@ services:
     image: personal-portifolio:dev
     container_name: personal-portifolio-dev
     ports:
-      - "${PORT:-3000}:3000"
+      - "${PORT_PAD:-}${PORT:-3000}:3000"
     environment:
       NODE_ENV: development
       NEXT_TELEMETRY_DISABLED: "1"

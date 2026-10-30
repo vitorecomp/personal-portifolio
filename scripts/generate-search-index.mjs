@@ -1,0 +1,324 @@
+#!/usr/bin/env node
+/**
+ * Generates `public/_pagefind/pagefind.js` from all `.mdx` files under `content/`
+ * so Nextra 4's `<Search />` component works out of the box in `next dev`,
+ * `next build` / `next start`, and static export (`output: 'export'`).
+ */
+
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const ROOT_DIR = path.resolve(__dirname, '..')
+const CONTENT_DIR = path.join(ROOT_DIR, 'content')
+const PAGEFIND_DIR = path.join(ROOT_DIR, 'public', '_pagefind')
+const COMPONENT_INDEX_FILE = path.join(ROOT_DIR, 'components', 'search-index.generated.js')
+
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[`*~_[\]()]/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+}
+
+function stripMdxToPlainText(raw) {
+  return raw
+    .replace(/^import\s+.*$/gm, '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/[`*_~>|#]/g, ' ')
+    .replace(/&rarr;|&#9612;|&nbsp;|&lt;|&gt;|&amp;/g, ' ')
+    .replace(/\\([{}])/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+async function collectMdxFiles(dir, baseRoute = '') {
+  const entries = await fs.readdir(dir, { withFileTypes: true })
+  const pages = []
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      const nested = await collectMdxFiles(fullPath, `${baseRoute}/${entry.name}`)
+      pages.push(...nested)
+    } else if (entry.name.endsWith('.mdx')) {
+      const slug = entry.name.replace(/\.mdx$/, '')
+      const route =
+        slug === 'index'
+          ? baseRoute || '/'
+          : `${baseRoute}/${slug}`
+      pages.push({ fullPath, route })
+    }
+  }
+  return pages
+}
+
+function parseMdxPage(content, route) {
+  const h1Match = content.match(/^#\s+(.+)$/m)
+  const headerNameMatch = content.match(/name="([^"]+)"/)
+  const heroTitleMatch = content.match(/title="([^"]+)"/)
+  const pageTitle =
+    (h1Match && h1Match[1].trim()) ||
+    (headerNameMatch && headerNameMatch[1].trim()) ||
+    (heroTitleMatch && heroTitleMatch[1].trim()) ||
+    (route === '/' ? 'Project Portfolio & Docs' : route.slice(1))
+
+  const descMatch = content.match(/description="([^"]+)"/)
+  const tagsMatch = content.match(/tags=\{\[([^\]]*)\]\}/)
+  const tagsText = tagsMatch
+    ? tagsMatch[1].replace(/["']/g, '').replace(/,/g, ' ')
+    : ''
+
+  // Remove fenced code blocks before splitting sections so # comments in bash aren't treated as headings
+  const withoutCode = content.replace(/```[\s\S]*?```/g, '\n')
+  const lines = withoutCode.split('\n')
+
+  const sections = []
+  let currentTitle = pageTitle
+  let currentId = ''
+  let currentBuffer = []
+
+  if (descMatch) {
+    currentBuffer.push(descMatch[1])
+  }
+  if (tagsText) {
+    currentBuffer.push(`Tags: ${tagsText}`)
+  }
+
+  const flushSection = () => {
+    const text = stripMdxToPlainText(currentBuffer.join('\n'))
+    if (text.length > 0) {
+      sections.push({
+        url: currentId ? `${route}#${currentId}` : route,
+        title: currentTitle,
+        text: text.slice(0, 1200),
+      })
+    }
+  }
+
+  for (const line of lines) {
+    const headingMatch = line.match(/^(#{2,3})\s+(.+)$/)
+    if (headingMatch) {
+      flushSection()
+      currentTitle = headingMatch[2]
+        .replace(/[`*_~]/g, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .trim()
+      currentId = slugify(currentTitle)
+      currentBuffer = []
+    } else {
+      currentBuffer.push(line)
+    }
+  }
+  flushSection()
+
+  // Also index RepoCatalogTable items on /repositories
+  if (route === '/repositories') {
+    const reposJsonMatch = content.match(/<RepoCatalogTable\s+repos=\{(\[[\s\S]*?\])\}\s*\/>/)
+    if (reposJsonMatch) {
+      try {
+        const repos = JSON.parse(reposJsonMatch[1])
+        for (const repo of repos) {
+          sections.push({
+            url: repo.docsHref || `/repositories#repo-${repo.name}`,
+            title: `${repo.name} (${repo.language})`,
+            text: `${repo.name} — ${repo.description} [${repo.language}]`,
+          })
+        }
+      } catch {
+        // Ignore JSON parse fallback
+      }
+    }
+  }
+
+  if (sections.length === 0) {
+    sections.push({
+      url: route,
+      title: pageTitle,
+      text: pageTitle,
+    })
+  }
+
+  return {
+    url: route,
+    title: pageTitle,
+    tags: tagsText,
+    sections,
+  }
+}
+
+async function main() {
+  const mdxFiles = await collectMdxFiles(CONTENT_DIR)
+  const indexPages = []
+
+  for (const { fullPath, route } of mdxFiles) {
+    const raw = await fs.readFile(fullPath, 'utf8')
+    indexPages.push(parseMdxPage(raw, route))
+  }
+
+  await fs.mkdir(PAGEFIND_DIR, { recursive: true })
+
+  const pagefindModuleSource = `// Auto-generated by scripts/generate-search-index.mjs
+const PAGES = ${JSON.stringify(indexPages)};
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^$\${}()|[\\]\\\\]/g, '\\\\$&');
+}
+
+function buildExcerpt(text, terms) {
+  const lower = text.toLowerCase();
+  let firstIdx = -1;
+  for (const t of terms) {
+    const idx = lower.indexOf(t);
+    if (idx !== -1 && (firstIdx === -1 || idx < firstIdx)) {
+      firstIdx = idx;
+    }
+  }
+
+  const start = firstIdx > 48 ? firstIdx - 40 : 0;
+  const end = Math.min(text.length, start + 180);
+  let snippet = text.slice(start, end).trim();
+  if (start > 0) snippet = '…' + snippet;
+  if (end < text.length) snippet = snippet + '…';
+
+  const escaped = escapeHtml(snippet);
+  const pattern = terms
+    .filter(Boolean)
+    .map(escapeRegExp)
+    .join('|');
+  if (!pattern) return escaped;
+  const regex = new RegExp('(' + pattern + ')', 'gi');
+  return escaped.replace(regex, '<mark>$1</mark>');
+}
+
+export async function options() {
+  return;
+}
+
+export async function init() {
+  return;
+}
+
+export async function search(query) {
+  const q = String(query || '').trim().toLowerCase();
+  if (!q) {
+    return { results: [] };
+  }
+
+  const terms = q.split(/\\s+/).filter(Boolean);
+  const matchedPages = [];
+
+  for (const page of PAGES) {
+    const pageTitleLower = page.title.toLowerCase();
+    const pageTagsLower = (page.tags || '').toLowerCase();
+    const pageTitleMatches = terms.every(
+      (t) => pageTitleLower.includes(t) || pageTagsLower.includes(t)
+    );
+
+    const subResults = [];
+    let bestScore = 0;
+
+    for (const sec of page.sections) {
+      const hayTitle = sec.title.toLowerCase();
+      const hayText = sec.text.toLowerCase();
+      const matchesAll = terms.every(
+        (t) =>
+          hayTitle.includes(t) ||
+          hayText.includes(t) ||
+          pageTitleLower.includes(t) ||
+          pageTagsLower.includes(t)
+      );
+
+      if (!matchesAll) continue;
+
+      let score = 1;
+      for (const t of terms) {
+        if (pageTitleLower.includes(t)) score += 5;
+        if (pageTagsLower.includes(t)) score += 3;
+        if (hayTitle.includes(t)) score += 4;
+        if (hayText.includes(t)) score += 2;
+      }
+
+      if (score > bestScore) bestScore = score;
+
+      subResults.push({
+        url: sec.url,
+        title: sec.title,
+        excerpt: buildExcerpt(sec.text || sec.title, terms),
+        _score: score,
+      });
+    }
+
+    if (subResults.length === 0 && pageTitleMatches) {
+      bestScore = 5;
+      subResults.push({
+        url: page.url,
+        title: page.title,
+        excerpt: buildExcerpt(page.title, terms),
+        _score: 5,
+      });
+    }
+
+    if (subResults.length > 0) {
+      subResults.sort((a, b) => b._score - a._score);
+      const seenUrls = new Set();
+      const uniqueSubs = [];
+      for (const item of subResults) {
+        if (seenUrls.has(item.url)) continue;
+        seenUrls.add(item.url);
+        const { _score, ...rest } = item;
+        uniqueSubs.push(rest);
+        if (uniqueSubs.length >= 4) break;
+      }
+      matchedPages.push({
+        score: bestScore,
+        payload: {
+          url: page.url,
+          meta: { title: page.title },
+          sub_results: uniqueSubs,
+        },
+      });
+    }
+  }
+
+  matchedPages.sort((a, b) => b.score - a.score);
+
+  return {
+    results: matchedPages.slice(0, 12).map((item) => ({
+      id: item.payload.url,
+      data: async () => item.payload,
+    })),
+  };
+}
+
+export async function debouncedSearch(query, opts) {
+  return search(query, opts);
+}
+`
+
+  const outFile = path.join(PAGEFIND_DIR, 'pagefind.js')
+  await fs.writeFile(outFile, pagefindModuleSource, 'utf8')
+  await fs.writeFile(COMPONENT_INDEX_FILE, pagefindModuleSource, 'utf8')
+  console.log(
+    `✓ generated search index at public/_pagefind/pagefind.js & components/search-index.generated.js (${indexPages.length} pages indexed)`
+  )
+}
+
+main().catch((err) => {
+  console.error('Failed to generate search index:', err)
+  process.exit(1)
+})
