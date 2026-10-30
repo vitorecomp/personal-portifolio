@@ -10,9 +10,41 @@ import React, {
 } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTheme } from 'nextra-theme-docs'
 import styles from './portfolio.module.css'
 
 export function SearchInitializer() {
+  const { theme, resolvedTheme, setTheme } = useTheme()
+
+  useEffect(() => {
+    if (theme === 'system' && resolvedTheme) {
+      setTheme(resolvedTheme === 'dark' ? 'dark' : 'light')
+    }
+  }, [theme, resolvedTheme, setTheme])
+
+  useEffect(() => {
+    const handleThemeBtn = (e: Event) => {
+      const target = e.target as HTMLElement | null
+      const btn = target?.closest?.('button[title="Change theme"]')
+      if (!btn) return
+      e.preventDefault()
+      e.stopPropagation()
+      if (e.type === 'click') {
+        const isDark = document.documentElement.classList.contains('dark')
+        setTheme(isDark ? 'light' : 'dark')
+      }
+    }
+
+    document.addEventListener('pointerdown', handleThemeBtn, true)
+    document.addEventListener('mousedown', handleThemeBtn, true)
+    document.addEventListener('click', handleThemeBtn, true)
+    return () => {
+      document.removeEventListener('pointerdown', handleThemeBtn, true)
+      document.removeEventListener('mousedown', handleThemeBtn, true)
+      document.removeEventListener('click', handleThemeBtn, true)
+    }
+  }, [setTheme])
+
   useEffect(() => {
     let cancelled = false
     const loadSearchEngine = () => {
@@ -1680,6 +1712,8 @@ export function CategoryHub({
   projects: ProjectItem[]
 }) {
   const [selectedTag, setSelectedTag] = useState<string>('ALL')
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
+  const filterDrawerId = `domain-tag-drawer-${slug}`
 
   const tagCounts = useMemo(() => {
     const map = new Map<string, number>()
@@ -1772,38 +1806,68 @@ export function CategoryHub({
       </section>
 
       <div className={styles.domainFilterBar}>
-        <div className={styles.domainFilterLeft}>
-          <span className={styles.filterPrompt}>// FILTER_BY_TAG:</span>
-          <button
-            type="button"
-            aria-pressed={selectedTag === 'ALL'}
-            onClick={() => setSelectedTag('ALL')}
-            className={
-              selectedTag === 'ALL' ? styles.flagChipActive : styles.flagChip
-            }
-          >
-            ALL [{projects.length}]
-          </button>
-          {tagCounts.map(([tag, count]) => (
+        <div className={styles.domainFilterHeader}>
+          <div className={styles.domainFilterHeaderLeft}>
             <button
-              key={tag}
               type="button"
-              aria-pressed={selectedTag === tag}
-              onClick={() =>
-                setSelectedTag((prev) => (prev === tag ? 'ALL' : tag))
-              }
+              aria-expanded={isFilterOpen}
+              aria-controls={filterDrawerId}
+              onClick={() => setIsFilterOpen((prev) => !prev)}
+              className={styles.domainFilterToggleBtn}
+            >
+              <span className={styles.filterPrompt}>// FILTER_BY_TAG</span>
+              <span className={styles.domainFilterToggleBadge}>
+                {isFilterOpen
+                  ? `[- COLLAPSE // ${tagCounts.length} TAGS]`
+                  : `[+ EXPAND // ${tagCounts.length} TAGS]`}
+              </span>
+            </button>
+            {selectedTag !== 'ALL' && (
+              <button
+                type="button"
+                onClick={() => setSelectedTag('ALL')}
+                className={styles.flagChipReset}
+                title="Clear active tag filter"
+              >
+                ACTIVE: #{selectedTag.toUpperCase()} [×]
+              </button>
+            )}
+          </div>
+          <span className={styles.filterCount} aria-live="polite">
+            [{filteredProjects.length} / {projects.length} SHOWN]
+          </span>
+        </div>
+
+        {isFilterOpen && (
+          <div id={filterDrawerId} className={styles.domainFilterDrawer}>
+            <button
+              type="button"
+              aria-pressed={selectedTag === 'ALL'}
+              onClick={() => setSelectedTag('ALL')}
               className={
-                selectedTag === tag ? styles.langChipActive : styles.langChip
+                selectedTag === 'ALL' ? styles.flagChipActive : styles.flagChip
               }
             >
-              #{tag.toUpperCase()}{' '}
-              <span className={styles.langChipCount}>({count})</span>
+              ALL [{projects.length}]
             </button>
-          ))}
-        </div>
-        <span className={styles.filterCount} aria-live="polite">
-          [{filteredProjects.length} / {projects.length} SHOWN]
-        </span>
+            {tagCounts.map(([tag, count]) => (
+              <button
+                key={tag}
+                type="button"
+                aria-pressed={selectedTag === tag}
+                onClick={() =>
+                  setSelectedTag((prev) => (prev === tag ? 'ALL' : tag))
+                }
+                className={
+                  selectedTag === tag ? styles.langChipActive : styles.langChip
+                }
+              >
+                #{tag.toUpperCase()}{' '}
+                <span className={styles.langChipCount}>({count})</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <ProjectGrid

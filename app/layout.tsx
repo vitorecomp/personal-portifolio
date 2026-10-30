@@ -430,6 +430,8 @@ export default async function RootLayout({
           docsRepositoryBase="https://github.com/vitorecomp/personal-portifolio/tree/main"
           editLink="EDIT_SOURCE_ON_GITHUB"
           feedback={{ content: 'OPEN_ISSUE' }}
+          nextThemes={{ defaultTheme: 'light' }}
+          themeSwitch={{ light: 'LIGHT', dark: 'DARK', system: 'LIGHT' }}
           sidebar={{ defaultMenuCollapseLevel: 1, toggleButton: true }}
           toc={{
             title: '// ON_THIS_PAGE',

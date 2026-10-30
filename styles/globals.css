@@ -392,6 +392,12 @@ footer {
   padding-bottom: env(safe-area-inset-bottom, 0px) !important;
 }
 
+/* Ensure theme switch button acts as a clean 2-state Light/Dark toggle */
+button[title='Change theme'] {
+  cursor: pointer;
+  border-radius: 0 !important;
+}
+
 /* Keyboard Focus Accessibility (:focus-visible) */
 a:focus-visible,
 button:focus-visible,
