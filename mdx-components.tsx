@@ -21,7 +21,7 @@ const DocsAnchor = docsComponents.a
 function CleanAnchor(props: React.ComponentPropsWithoutRef<'a'>) {
   const children =
     typeof props.children === 'string'
-      ? props.children.replace(/\s*↗$/u, '')
+      ? props.children.replace(/\s*(?:\[↗\]|↗)$/u, '')
       : props.children
   if (DocsAnchor) {
     return <DocsAnchor {...props}>{children}</DocsAnchor>

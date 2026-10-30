@@ -428,8 +428,8 @@ export default async function RootLayout({
           search={<Search placeholder="SEARCH_INDEX // GREP -RI..." />}
           pageMap={pageMap}
           docsRepositoryBase="https://github.com/vitorecomp/personal-portifolio/tree/main"
-          editLink="EDIT_SOURCE_ON_GITHUB [↗]"
-          feedback={{ content: 'OPEN_ISSUE [↗]' }}
+          editLink="EDIT_SOURCE_ON_GITHUB"
+          feedback={{ content: 'OPEN_ISSUE' }}
           sidebar={{ defaultMenuCollapseLevel: 1, toggleButton: true }}
           toc={{
             title: '// ON_THIS_PAGE',
