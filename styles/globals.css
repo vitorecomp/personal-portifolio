@@ -403,20 +403,41 @@ article pre button:hover,
   border-color: var(--cybr-lime-solid) !important;
 }
 
-/* Inline code pills (:not(pre) > code.nextra-code) */
+/* Inline code tokens (:not(pre) > code.nextra-code) — bracketed [token] grammar that wraps cleanly across multiple lines */
 :not(pre) > code.nextra-code {
-  background-color: var(--cybr-surface-alt) !important;
+  background-color: var(--cybr-violet-soft) !important;
   color: var(--cybr-ink) !important;
-  border: 1px solid var(--cybr-grid-strong) !important;
+  border: none !important;
   border-radius: 0 !important;
-  padding: 0.12em 0.38em !important;
+  padding: 0.04em 0.16em !important;
   font-weight: 700 !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+:not(pre) > code.nextra-code::before {
+  content: '[';
+  color: var(--cybr-violet);
+  font-weight: 800;
+  margin-right: 0.06em;
+}
+
+:not(pre) > code.nextra-code::after {
+  content: ']';
+  color: var(--cybr-violet);
+  font-weight: 800;
+  margin-left: 0.06em;
 }
 
 html.dark :not(pre) > code.nextra-code {
-  background-color: var(--cybr-surface-alt) !important;
+  background-color: var(--cybr-violet-soft) !important;
   color: var(--cybr-lime) !important;
-  border: 1px solid var(--cybr-grid) !important;
+  border: none !important;
+}
+
+html.dark :not(pre) > code.nextra-code::before,
+html.dark :not(pre) > code.nextra-code::after {
+  color: var(--cybr-violet-bright);
 }
 
 /* Markdown Tables: Exposed Structural Matrix */
