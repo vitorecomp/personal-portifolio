@@ -268,6 +268,35 @@ article {
   font-family: var(--font-mono) !important;
 }
 
+.nextra-breadcrumb {
+  display: inline-flex !important;
+  vertical-align: middle;
+  min-height: 36px;
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem;
+  max-width: calc(100% - 140px);
+}
+
+article > div.x\:float-end {
+  border-radius: 0 !important;
+  border: 1px solid var(--cybr-ink) !important;
+  background-color: var(--cybr-surface) !important;
+  margin-bottom: 0.75rem;
+}
+
+article > div.x\:float-end button {
+  border-radius: 0 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+article > main {
+  clear: both;
+}
+
 article h1 {
   font-family: var(--font-display) !important;
   text-transform: uppercase;
