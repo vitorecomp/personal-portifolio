@@ -41,8 +41,14 @@ export default async function Page(props: {
     sourceCode,
   } = await importPage(params.mdxPath)
 
+  const isMainPage = !params.mdxPath || params.mdxPath.length === 0
+
   return (
-    <Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
+    <Wrapper
+      toc={toc}
+      metadata={metadata}
+      sourceCode={isMainPage ? '' : sourceCode}
+    >
       <MDXContent {...props} params={params} />
     </Wrapper>
   )

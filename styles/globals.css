@@ -1,58 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@600;700&display=swap');
 
 :root {
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, 'Liberation Mono', 'Courier New', monospace;
-  --vitor-canvas-dark: #0b0f19;
-  --vitor-terminal-ink: #111827;
-  --vitor-panel-graphite: #1f2937;
-  --vitor-midnight-garage: #14142f;
-  --vitor-snow-paper: #fffafa;
-  --vitor-prompt-teal: #0d9488;
-  --vitor-prompt-teal-text: #0f766e;
-  --vitor-phosphor-green: #4ade80;
-  --vitor-heading: #111827;
-  --vitor-body: #374151;
-  --vitor-muted: #6b7280;
-  --vitor-hairline: #e5e7eb;
+  --font-display: 'Oswald', 'Space Grotesk', 'JetBrains Mono', sans-serif;
 
-  /* Nextra theme tokens (Teal: 173deg) */
-  --nextra-primary-hue: 173deg !important;
-  --nextra-primary-saturation: 80% !important;
-  --nextra-primary-lightness: 35% !important;
-  --nextra-bg: 255, 250, 250 !important;
-  --nextra-content-width: 90rem;
+  /* Cyber-Brutalist Core Palette (Light Mode Default) */
+  --cybr-canvas: #f5f5f8;
+  --cybr-surface: #ffffff;
+  --cybr-surface-alt: #ededf3;
+  --cybr-ink: #09090d;
+  --cybr-body: #272733;
+  --cybr-muted: #68687a;
+  --cybr-grid: #d8d8e3;
+  --cybr-grid-strong: #09090d;
+  --cybr-violet: #7c3aed;
+  --cybr-violet-bright: #8b5cf6;
+  --cybr-violet-soft: rgba(124, 58, 237, 0.1);
+  --cybr-lime: #e2ff66;
+  --cybr-lime-solid: #bef264;
+  --cybr-lime-border: #84cc16;
+
+  /* Legacy alias variables */
+  --vitor-heading: var(--cybr-ink);
+  --vitor-body: var(--cybr-body);
+  --vitor-muted: var(--cybr-muted);
+  --vitor-hairline: var(--cybr-grid);
+  --vitor-prompt-teal: var(--cybr-violet);
+  --vitor-prompt-teal-text: var(--cybr-violet);
+
+  /* Nextra theme tokens (Electric Violet: 262deg) */
+  --nextra-primary-hue: 262deg !important;
+  --nextra-primary-saturation: 83% !important;
+  --nextra-primary-lightness: 52% !important;
+  --nextra-bg: 245, 245, 248 !important;
+  --nextra-content-width: 92rem;
 }
 
 html.dark,
 .dark {
-  --vitor-prompt-teal: #2dd4bf;
-  --vitor-prompt-teal-text: #2dd4bf;
-  --vitor-heading: #f9fafb;
-  --vitor-body: #d1d5db;
-  --vitor-muted: #9ca3af;
-  --vitor-hairline: rgba(55, 65, 81, 0.75);
-  --nextra-primary-hue: 172deg !important;
-  --nextra-primary-saturation: 66% !important;
-  --nextra-primary-lightness: 52% !important;
-  /* Deep #0b0f19 canvas so #111827 terminal windows visibly float */
-  --nextra-bg: 11, 15, 25 !important;
+  --cybr-canvas: #09090d;
+  --cybr-surface: #111118;
+  --cybr-surface-alt: #181824;
+  --cybr-ink: #f5f5f8;
+  --cybr-body: #d4d4e0;
+  --cybr-muted: #8e8ea3;
+  --cybr-grid: #252535;
+  --cybr-grid-strong: #8b5cf6;
+  --cybr-violet: #8b5cf6;
+  --cybr-violet-bright: #a78bfa;
+  --cybr-violet-soft: rgba(139, 92, 246, 0.16);
+  --cybr-lime: #d9f99d;
+  --cybr-lime-solid: #bef264;
+  --cybr-lime-border: #a3e635;
+
+  --vitor-heading: var(--cybr-ink);
+  --vitor-body: var(--cybr-body);
+  --vitor-muted: var(--cybr-muted);
+  --vitor-hairline: var(--cybr-grid);
+  --vitor-prompt-teal: var(--cybr-violet-bright);
+  --vitor-prompt-teal-text: var(--cybr-violet-bright);
+
+  --nextra-primary-hue: 263deg !important;
+  --nextra-primary-saturation: 85% !important;
+  --nextra-primary-lightness: 68% !important;
+  --nextra-bg: 9, 9, 13 !important;
 }
 
 ::selection {
-  background: hsla(
-    var(--nextra-primary-hue),
-    var(--nextra-primary-saturation),
-    var(--nextra-primary-lightness),
-    0.3
-  );
+  background: var(--cybr-lime);
+  color: #09090d;
 }
 
 html {
   background: rgb(var(--nextra-bg));
 }
 
-/* Hide Next.js dev tools floating badge in bottom-left corner */
+/* Hide Next.js dev tools floating badge */
 nextjs-portal,
 [data-nextjs-toast],
 [data-next-badge-root],
@@ -60,7 +84,6 @@ nextjs-portal,
   display: none !important;
 }
 
-/* The One Font Rule from vitorx86.dev DESIGN.md */
 html,
 body,
 button,
@@ -74,69 +97,108 @@ pre {
   font-family: var(--font-mono) !important;
 }
 
+/* Orthographic Technical Grid Canvas */
 body {
-  background-color: var(--vitor-snow-paper);
-  color: var(--vitor-body);
+  background-color: var(--cybr-canvas);
+  color: var(--cybr-body);
   background-image: linear-gradient(
-      135deg,
-      rgba(229, 231, 235, 0.48) 1px,
+      to right,
+      rgba(124, 58, 237, 0.055) 1px,
       transparent 1px
     ),
-    linear-gradient(45deg, rgba(229, 231, 235, 0.48) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-
-html.dark body {
-  background-color: var(--vitor-canvas-dark) !important;
-  color: #d1d5db;
-  background-image: linear-gradient(
-      135deg,
-      rgba(59, 59, 120, 0.26) 1px,
-      transparent 1px
-    ),
-    linear-gradient(45deg, rgba(59, 59, 120, 0.26) 1px, transparent 1px);
+    linear-gradient(to bottom, rgba(124, 58, 237, 0.055) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
-/* Nextra Navbar styling to match vitorx86.dev */
+html.dark body {
+  background-color: var(--cybr-canvas) !important;
+  color: var(--cybr-body);
+  background-image: linear-gradient(
+      to right,
+      rgba(139, 92, 246, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Cyber-Brutalist Top Navbar */
+.nextra-nav-container,
+.nextra-navbar,
+header {
+  border-bottom: 1px solid var(--cybr-grid) !important;
+  background-color: var(--cybr-canvas) !important;
+}
+
 .nextra-nav-container nav div > a,
 .nextra-navbar nav div > a {
   font-family: var(--font-mono) !important;
-  font-size: 0.84rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  border-radius: 0.375rem;
-  padding: 0.35rem 0.65rem;
+  border-radius: 0 !important;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid transparent;
   text-decoration: none !important;
-  transition: background-color 150ms ease, color 150ms ease;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
 }
 
 .nextra-nav-container nav div > a:hover,
 .nextra-navbar nav div > a:hover {
-  background-color: #111827 !important;
-  color: #4ade80 !important;
+  background-color: #09090d !important;
+  color: var(--cybr-lime) !important;
+  border-color: var(--cybr-violet) !important;
 }
 
 html.dark .nextra-nav-container nav div > a:hover,
 html.dark .nextra-navbar nav div > a:hover {
-  background-color: #1f2937 !important;
-  color: #4ade80 !important;
+  background-color: var(--cybr-violet) !important;
+  color: #ffffff !important;
 }
 
-/* Sidebar styling & terminal active pill */
+/* Search Input in Navbar: 0px Brutalist Box */
+.nextra-search input,
+input[type='search'] {
+  border-radius: 0 !important;
+  border: 1px solid var(--cybr-grid) !important;
+  background-color: var(--cybr-surface) !important;
+  font-size: 0.78rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.nextra-search input:focus {
+  border-color: var(--cybr-violet) !important;
+  outline: 1px solid var(--cybr-violet) !important;
+}
+
+/* Left & Right Sidebars: Exposed Structural Borders */
 .nextra-sidebar-container,
-.nextra-sidebar {
+.nextra-sidebar,
+aside {
   font-family: var(--font-mono) !important;
+  border-right: 1px solid var(--cybr-grid) !important;
+}
+
+.nextra-toc {
+  font-family: var(--font-mono) !important;
+  border-left: 1px solid var(--cybr-grid) !important;
 }
 
 .nextra-sidebar-container li.x\:my-1\.5,
 .nextra-sidebar li.x\:my-1\.5 {
   font-family: var(--font-mono) !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.04em;
-  color: var(--vitor-prompt-teal-text) !important;
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cybr-violet) !important;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--cybr-grid);
 }
 
 .nextra-sidebar-container a,
@@ -146,121 +208,135 @@ html.dark .nextra-navbar nav div > a:hover {
 .nextra-mobile-nav a,
 .nextra-mobile-nav button {
   font-family: var(--font-mono) !important;
-  font-size: 0.82rem !important;
+  font-size: 0.78rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   align-items: center;
   gap: 0.25rem;
-  border-radius: 0.375rem !important;
+  border-radius: 0 !important;
 }
 
 .nextra-sidebar-container a[aria-current='page'],
 .nextra-sidebar a[aria-current='page'] {
-  background-color: #111827 !important;
-  color: #4ade80 !important;
+  background-color: #09090d !important;
+  color: var(--cybr-lime) !important;
   font-weight: 700 !important;
-  border: 1px solid rgba(45, 212, 191, 0.45);
-  box-shadow: 0 2px 6px -1px rgb(0 0 0 / 0.14);
+  border: 1px solid var(--cybr-violet);
+  box-shadow: 3px 3px 0px var(--cybr-violet);
 }
 
 html.dark .nextra-sidebar-container a[aria-current='page'],
 html.dark .nextra-sidebar a[aria-current='page'] {
-  background-color: #1f2937 !important;
-  color: #4ade80 !important;
-  border: 1px solid rgba(45, 212, 191, 0.55);
+  background-color: var(--cybr-violet) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--cybr-lime-solid);
+  box-shadow: 3px 3px 0px #09090d;
 }
 
-/* Align Nextra external link arrow icon cleanly with monospace text */
+/* Align Nextra external link arrow icon cleanly */
 a svg.x\:inline.x\:align-baseline {
   display: inline-block;
   vertical-align: -0.125em;
   width: 0.9em;
   height: 0.9em;
+  color: var(--cybr-violet);
 }
 
-/* Prose typography & reading measure (65-75ch for body copy) */
+/* Prose Typography & Cyber-Brutalist Headings */
 article {
   font-family: var(--font-mono) !important;
 }
 
-article h1,
+article h1 {
+  font-family: var(--font-display) !important;
+  text-transform: uppercase;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  line-height: 1.02 !important;
+  color: var(--cybr-ink) !important;
+}
+
 article h2,
 article h3,
 article h4 {
   font-family: var(--font-mono) !important;
-  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--cybr-ink) !important;
 }
 
 article h2 {
-  margin-top: 2.5rem !important;
-  margin-bottom: 0.85rem !important;
+  margin-top: 2.75rem !important;
+  margin-bottom: 0.9rem !important;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--cybr-grid);
 }
 
 article h3 {
-  margin-top: 1.85rem !important;
+  margin-top: 1.9rem !important;
   margin-bottom: 0.65rem !important;
 }
 
 article > p,
 article > ul > li,
 article > ol > li {
-  line-height: 1.75;
+  line-height: 1.72;
   max-width: 72ch;
 }
 
-/* Blockquotes: subtle 1px border (no thick side stripe) */
+/* Blockquotes: 0px Brutalist Spec Box */
 article blockquote {
-  border: 1px solid var(--vitor-hairline) !important;
-  border-radius: 0.5rem;
-  padding: 0.85rem 1.15rem !important;
-  background-color: rgba(17, 24, 39, 0.04);
+  border: 1px solid var(--cybr-grid) !important;
+  border-radius: 0 !important;
+  padding: 0.9rem 1.2rem !important;
+  background-color: var(--cybr-surface);
   font-style: normal !important;
   max-width: 72ch;
+  box-shadow: 4px 4px 0px rgba(124, 58, 237, 0.14);
 }
 
-html.dark article blockquote {
-  background-color: rgba(31, 41, 55, 0.65);
-  border-color: rgba(75, 85, 99, 0.65) !important;
-}
-
-/* Terminal-styled code blocks */
+/* Code Blocks: 0px Stark Black Terminal Block */
 article pre {
-  background-color: #111827 !important;
-  border: 1px solid rgba(75, 85, 99, 0.75) !important;
-  border-radius: 0.5rem !important;
-  box-shadow: 0 6px 12px -2px rgb(0 0 0 / 0.16), 0 3px 6px -3px rgb(0 0 0 / 0.1);
+  background-color: #09090d !important;
+  border: 1px solid var(--cybr-grid-strong) !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0px rgba(124, 58, 237, 0.22);
 }
 
-/* Terminal-styled Markdown tables in synced READMEs */
+/* Markdown Tables: Exposed Structural Matrix */
 article table {
-  border-collapse: separate !important;
-  border-spacing: 0;
+  border-collapse: collapse !important;
   width: 100%;
   margin: 1.5rem 0;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  border: 1px solid var(--vitor-hairline);
-  font-size: 0.83rem;
+  border-radius: 0 !important;
+  border: 1px solid var(--cybr-grid);
+  background-color: var(--cybr-surface);
+  font-size: 0.82rem;
 }
 
 article thead tr {
-  background-color: #111827 !important;
-  color: #2dd4bf !important;
+  background-color: #09090d !important;
+  color: var(--cybr-lime) !important;
 }
 
 article th {
-  padding: 0.65rem 0.9rem !important;
+  padding: 0.7rem 0.95rem !important;
   font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   text-align: left;
-  border-bottom: 1px solid rgba(75, 85, 99, 0.7) !important;
+  border: 1px solid #272733 !important;
 }
 
 article td {
-  padding: 0.6rem 0.9rem !important;
-  border-top: 1px solid var(--vitor-hairline);
+  padding: 0.65rem 0.95rem !important;
+  border: 1px solid var(--cybr-grid);
 }
 
 /* Images & Shields.io badge rows inside synced READMEs */
 article img {
-  border-radius: 0.5rem;
+  border-radius: 0 !important;
+  border: 1px solid var(--cybr-grid);
   max-width: 100%;
   height: auto;
 }
@@ -271,5 +347,13 @@ article p > img[src*='badge.svg'] {
   display: inline-block !important;
   vertical-align: middle;
   margin: 0.2rem 0.4rem 0.2rem 0 !important;
-  border-radius: 0.25rem;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+/* Footer override so Nextra footer spans cleanly with 0px border */
+footer {
+  border-top: 1px solid var(--cybr-grid) !important;
+  background-color: var(--cybr-canvas) !important;
+  padding-bottom: 0 !important;
 }

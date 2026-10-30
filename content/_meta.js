@@ -6,17 +6,25 @@ export default {
   index: {
     title: './portfolio',
     theme: {
-      toc: false,
+      toc: true,
       breadcrumb: false,
+      copyPage: false,
     },
   },
   repositories: {
     title: './all_repos',
     theme: {
-      toc: false,
+      toc: true,
+      copyPage: false,
     },
   },
-  about: './about',
+  about: {
+    title: './about',
+    theme: {
+      toc: true,
+      copyPage: false,
+    },
+  },
   '---directories': {
     type: 'separator',
     title: '# DIRECTORIES',
