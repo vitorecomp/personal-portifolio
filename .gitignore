@@ -1,3 +1,6 @@
 .next
 node_modules
 out
+
+# Vercel CLI project link
+.vercel
